@@ -1,0 +1,24 @@
+{
+  "name": "angular-file-saver",
+  "version": "0.0.1",
+  "authors": [
+    "Philipp Alferov <philipp.alferov@gmail.com>"
+  ],
+  "description": "Provides integration between FileSaver.js (implements HTML5 saveAs()) and angular",
+  "keywords": [
+    "filesaver",
+    "angular",
+    "saveas",
+    "blob",
+    "save",
+    "file"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "angular-file-saver",
+  "version": "0.0.1",
+  "description": "Provides integration between FileSaver.js (implements HTML5 saveAs()) and angular",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alferov/angular-file-saver.git"
+  },
+  "keywords": [
+    "filesaver",
+    "angular",
+    "saveas",
+    "blob",
+    "save",
+    "file"
+  ],
+  "author": "Philipp Alferov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alferov/angular-file-saver/issues"
+  },
+  "homepage": "https://github.com/alferov/angular-file-saver",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-size": "^1.2.1",
+    "gulp-uglify": "^1.2.0"
+  }
+}
