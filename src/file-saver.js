@@ -8,27 +8,39 @@
 *
 */
 
-(function(angular, BlobBuilder, saveAs) {
+(function() {
+  'use strict';
 
   angular
     .module('fileSaver', [])
     .factory('SaveAs', [SaveAs]);
 
     function SaveAs () {
-      function handleBlob () {
-        // body...
-      }
-      return {
-        saveFile: function() {
-          if (typeof(Blob) === "function") {
+      function handleBlob(data, type) {
+        var blob;
 
+        if (typeof(Blob) === "function") {
+          return new Blob(data, type);
+        }
+
+        blob = new BlobBuilder();
+        blob.append(data[0]);
+        blob = getBlob(type.type);
+
+        return blob;
+      }
+
+      return {
+        saveFile: function (data, type, filename) {
+          if (data instanceof Blob) {
+            //TODO: implement Blob instance support
           }
+          var blob = handleBlob(data, type);
+
+          saveAs(blob, filename);
         }
 
       };
-
     }
 
-
-
-})(angular, BlobBuilder, saveAs);
+})();

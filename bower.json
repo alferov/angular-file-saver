@@ -20,5 +20,9 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "blob-polyfill": "~1.0.20150320",
+    "file-saver.js": "~1.20150507.2"
+  }
 }
