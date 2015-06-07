@@ -1,9 +1,8 @@
 /* angular-file-saver
 *
-* Provides integration between FileSaver.js (implements HTML5 saveAs())
-* and angular
+* Provides integration between FileSaver.js and Angular
 *
-* (c) 2015 Philipp Alferiov
+* (c) 2015 Philipp Alferov
 * License: MIT
 *
 */
@@ -16,10 +15,10 @@
     .factory('SaveAs', [SaveAs]);
 
     function SaveAs () {
-      function handleBlob(data, type) {
+      function blobInit(data, type) {
         var blob;
 
-        if (typeof(Blob) === "function") {
+        if (hasBlobSupport()) {
           return new Blob(data, type);
         }
 
@@ -30,14 +29,37 @@
         return blob;
       }
 
-      return {
-        saveFile: function (data, type, filename) {
-          if (data instanceof Blob) {
-            //TODO: implement Blob instance support
-          }
-          var blob = handleBlob(data, type);
+      function isBlobInstance(data) {
+        var blobSupport = hasBlobSupport();
 
-          saveAs(blob, filename);
+        if (blobSupport && data instanceof Blob) {
+          return true;
+        }
+
+        if (!blobSupport && data instanceof BlobBuilder) {
+          return true;
+        }
+
+        return false;
+      }
+
+      function hasBlobSupport () {
+        return typeof(Blob) === "function";
+      }
+
+      return {
+        saveFile: function (filename, settings) {
+          var data = settings.data;
+          var type = settings.options;
+
+
+          if (isBlobInstance(data)) {
+            return saveAs(data, filename);
+          }
+
+          var blob = blobInit(data, type);
+
+          return saveAs(blob, filename);
         }
 
       };
