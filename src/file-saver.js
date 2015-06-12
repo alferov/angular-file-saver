@@ -1,6 +1,7 @@
 /* angular-file-saver
 *
-* Provides integration between FileSaver.js and Angular
+* A AngularJS service that implements the HTML5 W3C saveAs() in browsers that
+* do not natively support it
 *
 * (c) 2015 Philipp Alferov
 * License: MIT
