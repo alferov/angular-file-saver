@@ -1,0 +1,21 @@
+{
+  "name": "gh-pages-angular-file-saver",
+  "version": "0.0.1",
+  "homepage": "https://github.com/alferov/angular-file-saver",
+  "authors": [
+    "Philipp Alferov <philipp.alferov@gmail.com>"
+  ],
+  "description": "A Github page for angular-file-saver",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-file-saver": "*"
+  }
+}
