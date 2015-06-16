@@ -37,6 +37,8 @@
           return true;
         }
 
+        //If browser does not suport Blob natively, but the object passed as
+        //first argument represented as BlobBuilder polyfill instance
         if (!blobSupport && data instanceof BlobBuilder) {
           return true;
         }
@@ -49,16 +51,29 @@
       }
 
       return {
-        saveFile: function (filename, settings) {
-          var data = settings.data;
-          var type = settings.options;
 
+        /**
+        * saveFile - Immediately starts saving a file, returns undefined.
+        *
+        * @param  {string|array|object} data Data, represented as a string,
+        * an array or a Blob object;
+        * @param  {string} filename
+        * @param  {object} options Set of options for the Blob constructor.
+        * Optional parameter, if Blob object is passed as first argument
+        * @return {undefined}
+        */
+
+        saveFile: function (data, filename, options) {
+          var blob;
+          options = (typeof options === 'undefined') ? {} : options;
 
           if (isBlobInstance(data)) {
             return saveAs(data, filename);
           }
 
-          var blob = blobInit(data, type);
+          data = data instanceof Array ? data : [data];
+
+          blob = blobInit(data, options);
 
           return saveAs(blob, filename);
         }
