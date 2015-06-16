@@ -37,6 +37,13 @@
     <p>Bower</p>
     <pre>$ bower install angular-file-saver</pre>
 
+    <h3>Dependencies</h3>
+    <ul>
+      <li><a href="https://github.com/angular/angular.js">AngularJS</a></li>
+      <li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
+      <li><a href="https://github.com/eligrey/Blob.js/">Blob.js</a></li>
+    </ul>
+
     <h3>Basic usage</h3>
     <ol>
       <li>
@@ -46,11 +53,31 @@
         Pass <code>SaveAs</code> service as a dependency;
       </li>
       <li>
-        That's it!
+        Invoke <code>SaveAs.saveFile()</code> with following arguments:
+        <ul>
+          <li>
+            <code>data</code> - data, represented as a string, an array or a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a>;
+          </li>
+
+          <li>
+            <code>filename</code>
+          </li>
+
+          <li>
+            <code>options</code> - set of options for the <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob constructor</a> (optional parameter
+            if Blob object is passed as first argument)
+          </li>
+        </ul>
       </li>
     </ol>
 
-    <h3>Examples</h3>
+    <p>Example:</p>
+  <pre>  var text = ['Hello world'];
+  SaveAs.saveFile(text, 'textfile.txt', {
+    type: "text/plain;charset=utf-8"
+  });</pre>
+
+    <h3 id="demo">Demo</h3>
     <p>Download as a text file</p>
     <div class="wrapper" ng-controller="DownloadText as vm">
       <textarea ng-model="vm.val.text" ng-model-options="{ getterSetter: true }" name="textarea" rows="5" cols="20">Hey ho let's go!</textarea>

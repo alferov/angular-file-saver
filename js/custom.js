@@ -13,11 +13,8 @@
 
     vm.download = function(text) {
 
-      SaveAs.saveFile('textfile.txt', {
-        data: [text],
-        options: {
-          type: "text/plain;charset=utf-8"
-        }
+      SaveAs.saveFile([text], 'textfile.txt', {
+        type: "text/plain;charset=utf-8"
       });
 
     };
