@@ -15,7 +15,7 @@
     .module('fileSaver', [])
     .factory('SaveAs', [SaveAs]);
 
-    function SaveAs () {
+    function SaveAs() {
       function blobInit(data, type) {
         var blob;
 
@@ -30,23 +30,11 @@
         return blob;
       }
 
-      function isBlobInstance(data) {
-        var blobSupport = hasBlobSupport();
-
-        if (blobSupport && data instanceof Blob) {
-          return true;
-        }
-
-        //If browser does not suport Blob natively, but the object passed as
-        //first argument represented as BlobBuilder polyfill instance
-        if (!blobSupport && data instanceof BlobBuilder) {
-          return true;
-        }
-
-        return false;
+      function isBlobInstance (data) {
+          return data instanceof Blob || data instanceof BlobBuilder;
       }
 
-      function hasBlobSupport () {
+      function hasBlobSupport() {
         return typeof(Blob) === "function";
       }
 
