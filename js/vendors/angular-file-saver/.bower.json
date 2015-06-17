@@ -28,13 +28,14 @@
     "file-saver.js": "~1.20150507.2"
   },
   "homepage": "https://github.com/alferov/angular-file-saver",
-  "_release": "47ec656964",
+  "_release": "266b3a9b6a",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "47ec656964d1878acd5a76ca041fe51cf3e72705"
+    "commit": "266b3a9b6a7766dd8a92cf3b0d39f568950153cc"
   },
   "_source": "git://github.com/alferov/angular-file-saver.git",
   "_target": "*",
-  "_originalSource": "angular-file-saver"
+  "_originalSource": "angular-file-saver",
+  "_direct": true
 }
