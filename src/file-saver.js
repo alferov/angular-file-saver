@@ -13,29 +13,20 @@
 
   angular
     .module('fileSaver', [])
-    .factory('SaveAs', [SaveAs]);
+    .factory('SaveAs', SaveAs);
 
     function SaveAs() {
-      function blobInit(data, type) {
-        var blob;
-
-        if (hasBlobSupport()) {
-          return new Blob(data, type);
-        }
-
-        blob = new BlobBuilder();
-        blob.append(data[0]);
-        blob = getBlob(type.type);
-
-        return blob;
-      }
 
       function isBlobInstance (data) {
-          return data instanceof Blob || data instanceof BlobBuilder;
+        return data instanceof Blob;
       }
 
-      function hasBlobSupport() {
-        return typeof(Blob) === "function";
+      function save(blob, filename) {
+        try {
+          saveAs(blob, filename);
+        } catch(err) {
+          console.error(err.message);
+        }
       }
 
       return {
@@ -43,29 +34,24 @@
         /**
         * saveFile - Immediately starts saving a file, returns undefined.
         *
-        * @param  {string|array|object} data Data, represented as a string,
-        * an array or a Blob object;
+        * @param  {array|Blob} data Represented as an array or a Blob object
         * @param  {string} filename
-        * @param  {object} options Set of options for the Blob constructor.
+        * @param  {object} options Set of Blob constructor options.
         * Optional parameter, if Blob object is passed as first argument
         * @return {undefined}
         */
 
-        saveFile: function (data, filename, options) {
+        download: function (data, filename, options) {
           var blob;
-          options = (typeof options === 'undefined') ? {} : options;
-
-          if (isBlobInstance(data)) {
-            return saveAs(data, filename);
-          }
-
           data = data instanceof Array ? data : [data];
 
-          blob = blobInit(data, options);
+          if (isBlobInstance(data)) {
+            save(data, filename);
+          }
 
-          return saveAs(blob, filename);
+          blob = new Blob(data, options);
+          save(blob, filename);
         }
-
       };
     }
 
