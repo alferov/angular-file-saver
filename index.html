@@ -56,7 +56,7 @@
         Invoke <code>SaveAs.saveFile()</code> with following arguments:
         <ul>
           <li>
-            <code>data</code> - data, represented as a string, an array or a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a>;
+            <code>data</code> - data, represented as an array or a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a>;
           </li>
 
           <li>
@@ -73,9 +73,8 @@
 
     <p>Example:</p>
   <pre>  var text = ['Hello world'];
-  SaveAs.saveFile(text, 'textfile.txt', {
-    type: "text/plain;charset=utf-8"
-  });</pre>
+  var options = { type: "text/plain;charset=utf-8" };
+  SaveAs.download(text, 'textfile.txt', options);</pre>
 
     <h3 id="demo">Demo</h3>
     <p>Download as a text file</p>
