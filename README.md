@@ -21,7 +21,7 @@ $ bower install angular-file-saver
 
 - Pass <code>SaveAs</code> service as a dependency;
 
-- Invoke <code>SaveAs.saveFile()</code> with following arguments:
+- Invoke <code>SaveAs.download()</code> with following arguments:
 
   - `data` - data, represented as a string, an array or a [Blob object](https://developer.mozilla.org/en/docs/Web/API/Blob);
   - `filename`
