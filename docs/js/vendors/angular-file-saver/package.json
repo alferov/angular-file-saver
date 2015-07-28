@@ -1,0 +1,33 @@
+{
+  "name": "angular-file-saver",
+  "version": "0.0.4",
+  "description": "An AngularJS service that implements the HTML5 W3C saveAs() in browsers that do not natively support it",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alferov/angular-file-saver.git"
+  },
+  "main": [
+    "src/file-saver.js"
+  ],
+  "keywords": [
+    "filesaver",
+    "angular",
+    "saveas",
+    "blob",
+    "save",
+    "file"
+  ],
+  "author": "Philipp Alferov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alferov/angular-file-saver/issues"
+  },
+  "homepage": "https://github.com/alferov/angular-file-saver",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.2.0"
+  }
+}
