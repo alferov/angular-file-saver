@@ -16,6 +16,6 @@
   ],
   "dependencies": {
     "angular": "~1.4.0",
-    "angular-file-saver": "*"
+    "angular-file-saver": "~0.0.4"
   }
 }
