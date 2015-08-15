@@ -37,7 +37,7 @@ var config = {
     },
     docs: {
       type: 'docs',
-      entryPoint: './docs/js/custom.js',
+      entryPoint: './docs/assets/js/custom.js',
       bundleName: 'examples.js',
       dest: './docs/dist'
     }
@@ -122,17 +122,18 @@ gulp.task('build', function() {
   sequence(['browserify']);
 });
 
+gulp.task('build:docs', function() {
+  config.isProd = true;
+  browserifyDefaults = config.browserify.docs;
+
+  sequence(['browserify']);
+});
+
 gulp.task('watch:docs', ['serve'], function() {
   gulp.watch(config.docs.styles,  ['styles:docs']);
   gulp.watch(config.docs.templates,  ['templates:docs']);
   gulp.watch('./CONTRIBUTING.md', ['markdown']);
 });
 
-gulp.task('build', function() {
-  config.isProd = true;
-  browserifyDefaults = config.browserify.fileSaver;
-
-  sequence(['browserify']);
-});
 
 gulp.task('default', ['build']);

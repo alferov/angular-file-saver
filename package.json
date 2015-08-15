@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/alferov/angular-file-saver",
   "devDependencies": {
+    "browser-filesaver": "^1.0.0",
     "browserify": "^11.0.1",
     "gulp": "^3.9.0",
     "gulp-gh-pages": "^0.5.2",
