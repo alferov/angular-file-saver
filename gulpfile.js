@@ -12,6 +12,7 @@ var size = require('gulp-size');
 var source = require('vinyl-source-stream');
 var sequence = require('run-sequence');
 var rename = require('gulp-rename');
+var concat = require('gulp-concat');
 
 var config = {
   fileSaver: {
@@ -106,8 +107,8 @@ gulp.task('styles:docs', function() {
     config.docs.styles
   ])
   .pipe(concat('examples.css'))
-  .pipe(gulp.dest(config.docs.dest))
-  .pipe(gulpif(browserSync.active, browserSync.stream()));
+  .pipe(gulp.dest(config.docs.dest));
+  // .pipe(gulpif(browserSync.active, browserSync.stream()));
 });
 
 gulp.task('deploy', function() {
@@ -126,14 +127,12 @@ gulp.task('build:docs', function() {
   config.isProd = true;
   browserifyDefaults = config.browserify.docs;
 
-  sequence(['browserify']);
+  sequence(['browserify', 'styles:docs']);
 });
 
 gulp.task('watch:docs', ['serve'], function() {
   gulp.watch(config.docs.styles,  ['styles:docs']);
   gulp.watch(config.docs.templates,  ['templates:docs']);
-  gulp.watch('./CONTRIBUTING.md', ['markdown']);
 });
-
 
 gulp.task('default', ['build']);
