@@ -20,7 +20,7 @@ var config = {
   docs: {
     src: './docs/src',
     index: './docs/index.html',
-    styles: './docs/**/*.css',
+    styles: './docs/assets/stylesheets/**/*.css',
     dest: './docs/dist'
   },
   browserSync: {
@@ -70,7 +70,7 @@ function buildScript() {
   if (!config.isProd) {
     bundler = watchify(bundler);
     bundler.on('update', function() {
-      lintAndRebundle();
+      rebundle();
     });
   }
 
@@ -100,9 +100,32 @@ gulp.task('browserify', function() {
   return buildScript();
 });
 
+gulp.task('styles:docs', function() {
+
+  return gulp.src([
+    config.docs.styles
+  ])
+  .pipe(concat('examples.css'))
+  .pipe(gulp.dest(config.docs.dest))
+  .pipe(gulpif(browserSync.active, browserSync.stream()));
+});
+
 gulp.task('deploy', function() {
   return gulp.src('./docs/**/*')
     .pipe(ghPages());
+});
+
+gulp.task('build', function() {
+  config.isProd = true;
+  browserifyDefaults = config.browserify.fileSaver;
+
+  sequence(['browserify']);
+});
+
+gulp.task('watch:docs', ['serve'], function() {
+  gulp.watch(config.docs.styles,  ['styles:docs']);
+  gulp.watch(config.docs.templates,  ['templates:docs']);
+  gulp.watch('./CONTRIBUTING.md', ['markdown']);
 });
 
 gulp.task('build', function() {
