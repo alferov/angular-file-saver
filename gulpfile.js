@@ -125,6 +125,12 @@ gulp.task('deploy', function() {
     .pipe($.ghPages());
 });
 
+gulp.task('bump', function() {
+  return gulp.src('./*.json')
+    .pipe($.bump({type: 'minor'}))
+    .pipe(gulp.dest('./'));
+});
+
 gulp.task('build', function() {
   config.isProd = true;
   browserifyDefaults = config.browserify.fileSaver;
