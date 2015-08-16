@@ -7,6 +7,7 @@ var watchify = require('watchify');
 var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
 var sequence = require('run-sequence');
+var browserSync = require('browser-sync');
 
 var config = {
   fileSaver: {
@@ -85,7 +86,8 @@ function buildScript() {
       .pipe($.size({
         title: 'Scripts: '
       }))
-      .pipe(gulp.dest(browserifyDefaults.dest));
+      .pipe(gulp.dest(browserifyDefaults.dest))
+      .pipe($.if(browserSync.active, browserSync.stream()));
   }
 
   return rebundle();
@@ -101,8 +103,21 @@ gulp.task('styles:docs', function() {
     config.docs.styles
   ])
   .pipe($.concat('examples.css'))
-  .pipe(gulp.dest(config.docs.dest));
-  // .pipe($.if(browserSync.active, browserSync.stream()));
+  .pipe(gulp.dest(config.docs.dest))
+  .pipe($.if(browserSync.active, browserSync.stream()));
+});
+
+gulp.task('serve', function () {
+
+  browserSync({
+    port: config.browserSync.port,
+    server: {
+      baseDir: config.browserSync.server,
+    },
+    logConnections: true,
+    logFileChanges: true,
+    notify: true
+  });
 });
 
 gulp.task('deploy', function() {
@@ -126,7 +141,6 @@ gulp.task('build:docs', function() {
 
 gulp.task('watch:docs', ['serve'], function() {
   gulp.watch(config.docs.styles,  ['styles:docs']);
-  gulp.watch(config.docs.templates,  ['templates:docs']);
 });
 
 gulp.task('default', ['build']);
