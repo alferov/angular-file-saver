@@ -2,17 +2,11 @@
 'use strict';
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
-var ghPages = require('gulp-gh-pages');
-var gutil = require('gulp-util');
-var gulpif = require('gulp-if');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var buffer = require('vinyl-buffer');
-var size = require('gulp-size');
 var source = require('vinyl-source-stream');
 var sequence = require('run-sequence');
-var rename = require('gulp-rename');
-var concat = require('gulp-concat');
 
 var config = {
   fileSaver: {
@@ -50,7 +44,7 @@ var config = {
 var browserifyDefaults = config.browserify.fileSaver;
 
 function handleErrors(err) {
-  gutil.log(err.toString());
+  $.util.log(err.toString());
   this.emit('end');
 }
 
@@ -82,13 +76,13 @@ function buildScript() {
       .pipe(source(browserifyDefaults.bundleName))
       .pipe(buffer())
       .pipe(gulp.dest(browserifyDefaults.dest))
-      .pipe(gulpif(config.isProd, $.uglify({
+      .pipe($.if(config.isProd, $.uglify({
         compress: { drop_console: true }
       })))
-      .pipe(gulpif(config.isProd, rename({
+      .pipe($.if(config.isProd, $.rename({
         suffix: '.min'
       })))
-      .pipe(size({
+      .pipe($.size({
         title: 'Scripts: '
       }))
       .pipe(gulp.dest(browserifyDefaults.dest));
@@ -106,14 +100,14 @@ gulp.task('styles:docs', function() {
   return gulp.src([
     config.docs.styles
   ])
-  .pipe(concat('examples.css'))
+  .pipe($.concat('examples.css'))
   .pipe(gulp.dest(config.docs.dest));
-  // .pipe(gulpif(browserSync.active, browserSync.stream()));
+  // .pipe($.if(browserSync.active, browserSync.stream()));
 });
 
 gulp.task('deploy', function() {
   return gulp.src('./docs/**/*')
-    .pipe(ghPages());
+    .pipe($.ghPages());
 });
 
 gulp.task('build', function() {
