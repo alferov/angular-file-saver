@@ -1,11 +1,11 @@
 var angular = require('angular');
-var fileSaver = require('../../../src/file-saver');
+var fileSaver = require('../../../src/angular-file-saver');
 window.saveAs = require('browser-filesaver');
 
 angular
   .module('ngFileSaver', ['fileSaver'])
   .controller('DownloadText', ['$scope', 'SaveAs', DownloadText]);
-console.log(angular);
+
 function DownloadText($scope, SaveAs) {
   var vm = this;
 

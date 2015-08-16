@@ -27,7 +27,7 @@ var config = {
   browserify: {
     fileSaver: {
       type: 'dragular',
-      entryPoint: './src/file-saver.js',
+      entryPoint: './src/angular-file-saver.js',
       bundleName: 'angular-file-saver.js',
       dest: './dist',
     },
@@ -137,6 +137,13 @@ gulp.task('build:docs', function() {
   browserifyDefaults = config.browserify.docs;
 
   sequence(['browserify', 'styles:docs']);
+});
+
+gulp.task('dev:docs', function() {
+  config.isProd = false;
+  browserifyDefaults = config.browserify.docs;
+
+  sequence(['browserify', 'styles:docs'], 'watch:docs');
 });
 
 gulp.task('watch:docs', ['serve'], function() {

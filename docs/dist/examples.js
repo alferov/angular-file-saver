@@ -1,12 +1,12 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var angular = require('angular');
-var fileSaver = require('../../../src/file-saver');
+var fileSaver = require('../../../src/angular-file-saver');
 window.saveAs = require('browser-filesaver');
 
 angular
   .module('ngFileSaver', ['fileSaver'])
   .controller('DownloadText', ['$scope', 'SaveAs', DownloadText]);
-console.log(angular);
+
 function DownloadText($scope, SaveAs) {
   var vm = this;
 
@@ -25,7 +25,7 @@ function DownloadText($scope, SaveAs) {
   };
 }
 
-},{"../../../src/file-saver":5,"angular":3,"browser-filesaver":4}],2:[function(require,module,exports){
+},{"../../../src/angular-file-saver":5,"angular":3,"browser-filesaver":4}],2:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.4
  * (c) 2010-2015 Google, Inc. http://angularjs.org
