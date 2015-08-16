@@ -33,7 +33,7 @@ var config = {
     fileSaver: {
       type: 'dragular',
       entryPoint: './src/file-saver.js',
-      bundleName: 'file-saver.js',
+      bundleName: 'angular-file-saver.js',
       dest: './dist',
     },
     docs: {

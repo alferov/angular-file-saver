@@ -7,7 +7,7 @@
     "url": "https://github.com/alferov/angular-file-saver.git"
   },
   "main": [
-    "src/file-saver.js"
+    "dist/angular-file-saver.js"
   ],
   "keywords": [
     "filesaver",
