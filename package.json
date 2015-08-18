@@ -1,6 +1,6 @@
 {
   "name": "angular-file-saver",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "An AngularJS service that implements the HTML5 W3C saveAs() in browsers that do not natively support it",
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "gulp-bump": "^0.3.1",
     "gulp-concat": "^2.6.0",
     "gulp-gh-pages": "^0.5.2",
+    "gulp-git": "^1.2.4",
     "gulp-if": "^1.2.5",
     "gulp-load-plugins": "^0.10.0",
     "gulp-plumber": "^1.0.1",
