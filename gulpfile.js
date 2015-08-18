@@ -8,6 +8,7 @@ var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
 var sequence = require('run-sequence');
 var browserSync = require('browser-sync');
+var fs = require('fs');
 
 var config = {
   fileSaver: {
@@ -47,6 +48,24 @@ var browserifyDefaults = config.browserify.fileSaver;
 function handleErrors(err) {
   $.util.log(err.toString());
   this.emit('end');
+}
+
+function getUpdateType() {
+  var env = $.util.env;
+
+  if (env.type) {
+    return { type: env.type };
+  }
+
+  if (env.version) {
+    return { version: env.version };
+  }
+
+  return { type: 'patch' };
+}
+
+function getPackageJsonVersion() {
+    return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 }
 
 /*
@@ -120,15 +139,9 @@ gulp.task('serve', function () {
   });
 });
 
-gulp.task('deploy', function() {
+gulp.task('deploy:docs', function() {
   return gulp.src('./docs/**/*')
     .pipe($.ghPages());
-});
-
-gulp.task('bump', function() {
-  return gulp.src('./*.json')
-    .pipe($.bump({type: 'minor'}))
-    .pipe(gulp.dest('./'));
 });
 
 gulp.task('build', function() {
@@ -154,6 +167,13 @@ gulp.task('dev:docs', function() {
 
 gulp.task('watch:docs', ['serve'], function() {
   gulp.watch(config.docs.styles,  ['styles:docs']);
+});
+
+gulp.task('bump', function() {
+
+  return gulp.src('./*.json')
+    .pipe($.bump(getUpdateType()))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('default', ['build']);
