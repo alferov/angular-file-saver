@@ -78,7 +78,8 @@ function buildScript() {
     debug: false,
     cache: {},
     packageCache: {},
-    fullPaths: false
+    fullPaths: false,
+    standalone: 'angular-file-saver',
   }, watchify.args);
 
   // Watch files for changes and only rebuilds what it needs to
