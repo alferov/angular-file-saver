@@ -55,7 +55,5 @@ angular
     };
   }
 
-module.exports = function (n) { return n * 111 }
-
 },{}]},{},[1])(1)
 });
