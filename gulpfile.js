@@ -170,11 +170,7 @@ gulp.task('watch:docs', ['serve'], function() {
   gulp.watch(config.docs.styles,  ['styles:docs']);
 });
 
-/*
-* Automate npm & bower updates.
-* $ gulp release:bump --type major - using gulp-bump versioning
-* $ gulp release:bump --version 1.1.1 - using explicit version number
-*/
+
 gulp.task('release:bump', function() {
 
   return gulp.src('./*.json')
@@ -182,19 +178,22 @@ gulp.task('release:bump', function() {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('release:commit', function() {
+gulp.task('release:commit', ['release:bump'], function() {
 
   return gulp.src('.')
     .pipe($.git.add())
     .pipe($.git.commit(':octocat: Bump to ' + getPackageJsonVersion()));
 });
 
-gulp.task('release:push', function (cb) {
+gulp.task('release:push', ['release:bump', 'release:commit'], function (cb) {
    return $.git.push('origin', 'master', cb);
 });
 
-gulp.task('release', ['release:bump', 'release:commit', 'release:push'], function() {
-  
-});
+/*
+* Automate npm & bower updates.
+* $ gulp release --type major - using gulp-bump versioning
+* $ gulp release --version 1.1.1 - using explicit version number
+*/
+gulp.task('release', ['release:bump', 'release:commit', 'release:push']);
 
 gulp.task('default', ['build']);
