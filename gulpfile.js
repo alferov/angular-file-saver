@@ -179,14 +179,26 @@ gulp.task('release:bump', function() {
 });
 
 gulp.task('release:commit', ['release:bump'], function() {
+  var version = getPackageJsonVersion();
 
   return gulp.src('.')
     .pipe($.git.add())
-    .pipe($.git.commit(':octocat: Bump to ' + getPackageJsonVersion()));
+    .pipe($.git.commit(':octocat: Bump to ' + version));
 });
 
 gulp.task('release:push', ['release:bump', 'release:commit'], function (cb) {
    return $.git.push('origin', 'master', cb);
+});
+
+gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], function (cb) {
+  var version = getPackageJsonVersion();
+
+  return $.git.tag(version, 'Tag: ' + version, function (err) {
+    if (err) {
+      return cb(err);
+    }
+    $.git.push('origin', 'master', {args: '--tags'}, cb);
+  });
 });
 
 /*
@@ -194,6 +206,6 @@ gulp.task('release:push', ['release:bump', 'release:commit'], function (cb) {
 * $ gulp release --type major - using gulp-bump versioning
 * $ gulp release --version 1.1.1 - using explicit version number
 */
-gulp.task('release', ['release:bump', 'release:commit', 'release:push']);
+gulp.task('release', ['release:bump', 'release:commit', 'release:push', 'release:tag']);
 
 gulp.task('default', ['build']);
