@@ -172,8 +172,8 @@ gulp.task('watch:docs', ['serve'], function() {
 
 /*
 * Automate npm & bower updates.
-* $ gulp bump --type major - using gulp-bump versioning
-* $ gulp bump --version 1.1.1 - using explicit version number
+* $ gulp release:bump --type major - using gulp-bump versioning
+* $ gulp release:bump --version 1.1.1 - using explicit version number
 */
 gulp.task('release:bump', function() {
 
@@ -191,6 +191,10 @@ gulp.task('release:commit', function() {
 
 gulp.task('release:push', function (cb) {
    return $.git.push('origin', 'master', cb);
+});
+
+gulp.task('release', ['release:bump', 'release:commit', 'release:push'], function() {
+  
 });
 
 gulp.task('default', ['build']);
