@@ -146,10 +146,15 @@ gulp.task('deploy:docs', function() {
 });
 
 gulp.task('build', function() {
+  sequence('build:src');
+  sequence('build:docs');
+});
+
+gulp.task('build:src', function() {
   config.isProd = true;
   browserifyDefaults = config.browserify.fileSaver;
 
-  sequence(['browserify']);
+  sequence('browserify', 'build:docs');
 });
 
 gulp.task('build:docs', function() {
@@ -169,7 +174,6 @@ gulp.task('dev:docs', function() {
 gulp.task('watch:docs', ['serve'], function() {
   gulp.watch(config.docs.styles,  ['styles:docs']);
 });
-
 
 gulp.task('release:bump', function() {
 
