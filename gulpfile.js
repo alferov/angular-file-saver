@@ -170,6 +170,11 @@ gulp.task('watch:docs', ['serve'], function() {
   gulp.watch(config.docs.styles,  ['styles:docs']);
 });
 
+/*
+* Automate npm & bower updates.
+* $ gulp bump --type major - using gulp-bump versioning 
+* $ gulp bump --version 1.1.1 - using explicit version number
+*/
 gulp.task('bump', function() {
 
   return gulp.src('./*.json')
