@@ -172,14 +172,25 @@ gulp.task('watch:docs', ['serve'], function() {
 
 /*
 * Automate npm & bower updates.
-* $ gulp bump --type major - using gulp-bump versioning 
+* $ gulp bump --type major - using gulp-bump versioning
 * $ gulp bump --version 1.1.1 - using explicit version number
 */
-gulp.task('bump', function() {
+gulp.task('release:bump', function() {
 
   return gulp.src('./*.json')
     .pipe($.bump(getUpdateType()))
     .pipe(gulp.dest('./'));
+});
+
+gulp.task('release:commit', function() {
+
+  return gulp.src('.')
+    .pipe($.git.add())
+    .pipe($.git.commit(':octocat: Bump to ' + getPackageJsonVersion()));
+});
+
+gulp.task('release:push', function (cb) {
+   return $.git.push('origin', 'master', cb);
 });
 
 gulp.task('default', ['build']);
