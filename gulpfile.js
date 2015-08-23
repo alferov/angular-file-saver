@@ -9,6 +9,7 @@ var source = require('vinyl-source-stream');
 var sequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var fs = require('fs');
+var spawn = require('child_process').spawn;
 
 var config = {
   fileSaver: {
@@ -182,12 +183,12 @@ gulp.task('release:bump', function() {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('release:commit', ['release:bump'], function() {
+gulp.task('release:commit', ['release:bump'], function (cb) {
   var version = getPackageJsonVersion();
 
   return gulp.src('.')
     .pipe($.git.add())
-    .pipe($.git.commit(':octocat: Bump to ' + version));
+    .pipe($.git.commit(':octocat: Bump to ' + version, cb));
 });
 
 gulp.task('release:push', ['release:bump', 'release:commit'], function (cb) {
@@ -205,11 +206,15 @@ gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], fun
   });
 });
 
+gulp.task('release:npm', ['release:bump', 'release:commit', 'release:push', 'release:tag'], function (done) {
+  spawn('npm', ['publish'], { stdio: 'inherit' }).on('close', done);
+});
+
 /*
 * Automate npm & bower updates.
 * $ gulp release --type major - using gulp-bump versioning
 * $ gulp release --version 1.1.1 - using explicit version number
 */
-gulp.task('release', ['release:bump', 'release:commit', 'release:push', 'release:tag']);
+gulp.task('release', ['release:bump', 'release:commit', 'release:push', 'release:tag', 'release:npm']);
 
 gulp.task('default', ['build']);
