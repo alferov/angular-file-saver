@@ -1,6 +1,7 @@
 var angular = require('angular');
 var fileSaver = require('../../../src/angular-file-saver');
 window.saveAs = require('browser-filesaver');
+// window.Blob = require('blob-polyfill');
 
 angular
   .module('ngFileSaver', ['fileSaver'])
