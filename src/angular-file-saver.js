@@ -16,8 +16,24 @@ angular
 
   function SaveAs() {
 
-    function isBlobInstance (data) {
-      return data instanceof Blob;
+    function handleErrors (msg) {
+      throw new Error(msg);
+    }
+
+    function isArray (obj) {
+      return Object.prototype.toString.call(obj) === '[object Array]';
+    }
+
+    function isObject (obj) {
+      return obj !== null && typeof obj === 'object';
+    }
+
+    function isString (obj) {
+      return typeof obj === 'string' || obj instanceof String;
+    }
+
+    function isBlobInstance (obj) {
+      return obj instanceof Blob;
     }
 
     function save(blob, filename) {
@@ -42,14 +58,25 @@ angular
 
       download: function (data, filename, options) {
         var blob;
-        data = data instanceof Array ? data : [data];
+
+        if (!isArray(data) || !isBlobInstance(data)) {
+          handleErrors('Data argument should be represented as an array or Blob instance');
+        }
+
+        if (!isString(filename)) {
+          handleErrors('Filename argument should be a string');
+        }
+
+        if (!isObject(options)) {
+          handleErrors('Options argument should be an object');
+        }
 
         if (isBlobInstance(data)) {
-          save(data, filename);
+          return save(data, filename);
         }
 
         blob = new Blob(data, options);
-        save(blob, filename);
+        return save(blob, filename);
       }
     };
   }
