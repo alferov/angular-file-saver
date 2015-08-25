@@ -51,6 +51,9 @@ function handleErrors(err) {
   this.emit('end');
 }
 
+/*
+* Get arguments for release task from CLI
+*/
 function getUpdateType() {
   var env = $.util.env;
 

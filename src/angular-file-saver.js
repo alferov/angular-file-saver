@@ -10,31 +10,31 @@
 *
 */
 
+function handleErrors (msg) {
+  throw new Error(msg);
+}
+
+function isArray (obj) {
+  return Object.prototype.toString.call(obj) === '[object Array]';
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object';
+}
+
+function isString (obj) {
+  return typeof obj === 'string' || obj instanceof String;
+}
+
+function isBlobInstance (obj) {
+  return obj instanceof Blob;
+}
+
 angular
   .module('fileSaver', [])
   .factory('SaveAs', SaveAs);
 
   function SaveAs() {
-
-    function handleErrors (msg) {
-      throw new Error(msg);
-    }
-
-    function isArray (obj) {
-      return Object.prototype.toString.call(obj) === '[object Array]';
-    }
-
-    function isObject (obj) {
-      return obj !== null && typeof obj === 'object';
-    }
-
-    function isString (obj) {
-      return typeof obj === 'string' || obj instanceof String;
-    }
-
-    function isBlobInstance (obj) {
-      return obj instanceof Blob;
-    }
 
     function save(blob, filename) {
       try {
