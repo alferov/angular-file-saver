@@ -28898,22 +28898,38 @@ angular
 
   function SaveAs() {
 
-    function isBlobInstance (data) {
-      return data instanceof Blob;
+    function handleErrors (msg) {
+      throw new Error(msg);
+    }
+
+    function isArray (obj) {
+      return Object.prototype.toString.call(obj) === '[object Array]';
+    }
+
+    function isObject (obj) {
+      return obj !== null && typeof obj === 'object';
+    }
+
+    function isString (obj) {
+      return typeof obj === 'string' || obj instanceof String;
+    }
+
+    function isBlobInstance (obj) {
+      return obj instanceof Blob;
     }
 
     function save(blob, filename) {
       try {
         saveAs(blob, filename);
       } catch(err) {
-        console.error(err.message);
+        handleErrors(err.message);
       }
     }
 
     return {
 
       /**
-      * saveFile - Immediately starts saving a file, returns undefined.
+      * download - Immediately starts saving a file, returns undefined.
       *
       * @param  {array|Blob} data Represented as an array or a Blob object
       * @param  {string} filename
@@ -28923,15 +28939,24 @@ angular
       */
 
       download: function (data, filename, options) {
-        var blob;
-        data = data instanceof Array ? data : [data];
-
-        if (isBlobInstance(data)) {
-          save(data, filename);
+        if (!isArray(data) || !isBlobInstance(data)) {
+          handleErrors('Data argument should be represented as an array or Blob instance');
         }
 
-        blob = new Blob(data, options);
-        save(blob, filename);
+        if (!isString(filename)) {
+          handleErrors('Filename argument should be a string');
+        }
+
+        if (!isObject(options)) {
+          handleErrors('Options argument should be an object');
+        }
+
+        if (isBlobInstance(data)) {
+          return save(data, filename);
+        }
+
+        var blob = new Blob(data, options);
+        return save(blob, filename);
       }
     };
   }
