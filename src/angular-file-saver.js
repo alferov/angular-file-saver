@@ -40,14 +40,14 @@ angular
       try {
         saveAs(blob, filename);
       } catch(err) {
-        console.error(err.message);
+        handleErrors(err.message);
       }
     }
 
     return {
 
       /**
-      * saveFile - Immediately starts saving a file, returns undefined.
+      * download - Immediately starts saving a file, returns undefined.
       *
       * @param  {array|Blob} data Represented as an array or a Blob object
       * @param  {string} filename
@@ -57,8 +57,6 @@ angular
       */
 
       download: function (data, filename, options) {
-        var blob;
-
         if (!isArray(data) || !isBlobInstance(data)) {
           handleErrors('Data argument should be represented as an array or Blob instance');
         }
@@ -75,7 +73,7 @@ angular
           return save(data, filename);
         }
 
-        blob = new Blob(data, options);
+        var blob = new Blob(data, options);
         return save(blob, filename);
       }
     };
