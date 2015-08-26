@@ -28908,15 +28908,29 @@ function isString (obj) {
   return typeof obj === 'string' || obj instanceof String;
 }
 
-function isBlobInstance (obj) {
-  return obj instanceof Blob;
+function isUndefined (obj) {
+  return typeof obj == "undefined";
 }
 
 angular
   .module('fileSaver', [])
-  .factory('SaveAs', SaveAs);
+  .factory('SaveAs', ['$window', SaveAs]);
 
-  function SaveAs() {
+  function SaveAs ($window) {
+    var saveAs = $window.saveAs;
+    var Blob = $window.Blob;
+
+    if (isUndefined(saveAs)) {
+      handleErrors('saveAs is not supported. Please include saveAs polyfill');
+    }
+
+    if (isUndefined(Blob)) {
+      handleErrors('Blob is not supported. Please include blob polyfill');
+    }
+
+    function isBlobInstance (obj) {
+      return obj instanceof Blob;
+    }
 
     function save(blob, filename) {
       try {
