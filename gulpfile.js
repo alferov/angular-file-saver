@@ -31,7 +31,7 @@ var config = {
       type: 'dragular',
       entryPoint: './src/angular-file-saver.js',
       bundleName: 'angular-file-saver.js',
-      dest: './dist',
+      dest: './dist'
     },
     docs: {
       type: 'docs',
@@ -152,23 +152,22 @@ gulp.task('deploy:docs', function() {
     .pipe($.ghPages());
 });
 
-gulp.task('build', function() {
-  sequence('build:src');
-  sequence('build:docs');
+gulp.task('build', function(cb) {
+  sequence('build:src', 'build:docs', cb);
 });
 
-gulp.task('build:src', function() {
+gulp.task('build:src', function(cb) {
   config.isProd = true;
   browserifyDefaults = config.browserify.fileSaver;
 
-  sequence('browserify', 'build:docs');
+  sequence('browserify', 'build:docs', cb);
 });
 
-gulp.task('build:docs', function() {
+gulp.task('build:docs', function(cb) {
   config.isProd = true;
   browserifyDefaults = config.browserify.docs;
 
-  sequence(['browserify', 'styles:docs']);
+  sequence(['browserify', 'styles:docs'], cb);
 });
 
 gulp.task('dev:docs', function() {
