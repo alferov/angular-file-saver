@@ -28,13 +28,11 @@ var config = {
   // Predefined browserify configs to keep tasks DRY
   browserify: {
     fileSaver: {
-      type: 'dragular',
       entryPoint: './src/angular-file-saver.js',
       bundleName: 'angular-file-saver.js',
       dest: './dist'
     },
     docs: {
-      type: 'docs',
       entryPoint: './docs/assets/js/custom.js',
       bundleName: 'examples.js',
       dest: './docs/dist'
