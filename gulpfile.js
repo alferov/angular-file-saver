@@ -40,6 +40,9 @@ var config = {
       dest: './docs/dist'
     }
   },
+  tests: {
+    karma: 'test/karma.conf.js'
+  },
   // A flag attribute to switch modes.
   isProd: false
 };
@@ -207,6 +210,19 @@ gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], fun
     }
     $.git.push('origin', 'master', {args: '--tags'}, cb);
   });
+});
+
+gulp.task('unit', function() {
+  // Nonsensical source to fall back to files listed in karma.conf.js.
+  // See https://github.com/lazd/gulp-karma/issues/9
+  return gulp.src('./foobar')
+    .pipe($.karma({
+      configFile: config.tests.karma,
+      action: 'run'
+    }))
+    .on('error', function(err) {
+      throw err;
+    });
 });
 
 gulp.task('release:npm', ['release:bump', 'release:commit', 'release:push', 'release:tag'], function (done) {
