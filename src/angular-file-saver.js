@@ -67,16 +67,14 @@ function SaveAs($window) {
     */
 
     download: function(data, filename, options) {
-      if (!isArray(data) || !isBlobInstance(data)) {
+      options = options || {};
+
+      if (!isArray(data) && !isBlobInstance(data)) {
         handleErrors('Data argument should be represented as an array or Blob instance');
       }
 
       if (!isString(filename)) {
         handleErrors('Filename argument should be a string');
-      }
-
-      if (!isObject(options)) {
-        handleErrors('Options argument should be an object');
       }
 
       if (isBlobInstance(data)) {
