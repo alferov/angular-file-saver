@@ -1,4 +1,3 @@
-/*jslint node: true */
 'use strict';
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
@@ -13,7 +12,7 @@ var spawn = require('child_process').spawn;
 
 var config = {
   fileSaver: {
-    scripts: './src/*.js',
+    scripts: './src/*.js'
   },
   docs: {
     src: './docs/src',
@@ -70,7 +69,7 @@ function getUpdateType() {
 }
 
 function getPackageJsonVersion() {
-    return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
+  return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 }
 
 /*
@@ -84,15 +83,7 @@ function buildScript() {
     cache: {},
     packageCache: {},
     fullPaths: false
-  }, watchify.args);
-
-  // Watch files for changes and only rebuilds what it needs to
-  if (!config.isProd) {
-    bundler = watchify(bundler);
-    bundler.on('update', function() {
-      rebundle();
-    });
-  }
+  });
 
   function rebundle() {
     var stream = bundler.bundle();
@@ -114,6 +105,14 @@ function buildScript() {
       .pipe($.if(browserSync.active, browserSync.stream()));
   }
 
+  // Watch files for changes and only rebuilds what it needs to
+  if (!config.isProd) {
+    bundler = watchify(bundler);
+    bundler.on('update', function() {
+      rebundle();
+    });
+  }
+
   return rebundle();
 }
 
@@ -131,12 +130,12 @@ gulp.task('styles:docs', function() {
   .pipe($.if(browserSync.active, browserSync.stream()));
 });
 
-gulp.task('serve', function () {
+gulp.task('serve', function() {
 
   browserSync({
     port: config.browserSync.port,
     server: {
-      baseDir: config.browserSync.server,
+      baseDir: config.browserSync.server
     },
     logConnections: true,
     logFileChanges: true,
@@ -175,7 +174,7 @@ gulp.task('dev:docs', function() {
 });
 
 gulp.task('watch:docs', ['serve'], function() {
-  gulp.watch(config.docs.styles,  ['styles:docs']);
+  gulp.watch(config.docs.styles, ['styles:docs']);
 });
 
 gulp.task('release:bump', function() {
@@ -185,7 +184,7 @@ gulp.task('release:bump', function() {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('release:commit', ['release:bump'], function (cb) {
+gulp.task('release:commit', ['release:bump'], function(cb) {
   var version = getPackageJsonVersion();
 
   return gulp.src('.')
@@ -193,14 +192,14 @@ gulp.task('release:commit', ['release:bump'], function (cb) {
     .pipe($.git.commit(':octocat: Bump to ' + version, cb));
 });
 
-gulp.task('release:push', ['release:bump', 'release:commit'], function (cb) {
-   return $.git.push('origin', 'master', cb);
+gulp.task('release:push', ['release:bump', 'release:commit'], function(cb) {
+  return $.git.push('origin', 'master', cb);
 });
 
-gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], function (cb) {
+gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], function(cb) {
   var version = getPackageJsonVersion();
 
-  return $.git.tag(version, 'Tag: ' + version, function (err) {
+  return $.git.tag(version, 'Tag: ' + version, function(err) {
     if (err) {
       return cb(err);
     }
@@ -221,7 +220,7 @@ gulp.task('unit', function() {
     });
 });
 
-gulp.task('release:npm', ['release:bump', 'release:commit', 'release:push', 'release:tag'], function (done) {
+gulp.task('release:npm', ['release:bump', 'release:commit', 'release:push', 'release:tag'], function(done) {
   spawn('npm', ['publish'], { stdio: 'inherit' }).on('close', done);
 });
 
