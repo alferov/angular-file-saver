@@ -2,11 +2,11 @@
 
 describe('angular-file-saver', function() {
 
-  var SaveAs, $window, Blob, options, filename;
-  beforeEach(module('fileSaver'));
+  var FileSaver, $window, Blob, config;
+  beforeEach(module('ngFileSaver'));
 
-  beforeEach(inject(function(_SaveAs_, _$window_) {
-    SaveAs = _SaveAs_;
+  beforeEach(inject(function(_FileSaver_, _$window_) {
+    FileSaver = _FileSaver_;
     $window = _$window_;
     Blob = $window.Blob;
   }));
@@ -19,33 +19,35 @@ describe('angular-file-saver', function() {
   describe('passed arguments are correct', function() {
 
     beforeEach(function() {
-      options = { type: 'text/plain;charset=utf-8' };
-      filename = 'xfiles.txt';
+      config = {
+        filename: 'xfiles.txt',
+        options: {
+          type: 'text/plain;charset=utf-8'
+        }
+      };
     });
 
     it('should save a file if provided data is an array', function() {
-      var data = ['text'];
+      config.data = ['text'];
 
       expect(function() {
-        SaveAs.download(data, filename, options);
+        FileSaver.saveAs(config);
       }).not.toThrow();
     });
 
     it('should save a file if provided data is a blob', function() {
-      var data = new Blob(['text'], options);
-      console.log(data instanceof Blob);
+      config.data = new Blob(['text'], config.options);
+
       expect(function() {
-        SaveAs.download(data, filename);
+        FileSaver.saveAs(config);
       }).not.toThrow();
     });
 
     it('should save a file if options object is not passed', function() {
-      var data = ['text'];
-
-
+      config.data = ['text'];
 
       expect(function() {
-        SaveAs.download(data, filename);
+        FileSaver.saveAs(config);
       }).not.toThrow();
     });
 
