@@ -64,8 +64,7 @@
             <code>filename</code>
           </li>
           <li>
-            <code>options</code> - set of options for the <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob constructor</a> ( - `options` - a set of options for the [Blob constructor](https://developer.mozilla.org/en/docs/Web/API/Blob)(optional
-            attribute))
+            <code>options</code> - set of options for the <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob constructor</a> (optional attribute)
           </li>
         </ul>
       </li>
@@ -73,13 +72,30 @@
 
     <p>Example:</p>
 <pre>
-var config = {
-  data: ['text'],
-  filename: 'textfile.txt',
-  options: { type: 'text/plain;charset=utf-8' }
-};
+function ExampleCtrl($scope, FileSaver) {
+  var vm = this;
 
-FileSaver.saveAs(config);
+  vm.val = {
+    text: 'Hey ho lets go!'
+  };
+
+  vm.download = function(text) {
+
+    var config = {
+      data: [text],
+      filename: 'textfile.txt',
+      options: {
+        type: 'text/plain;charset=utf-8'
+      }
+    };
+
+    FileSaver.saveAs(config);
+  };
+}
+
+angular
+  .module('fileSaverExample', ['ngFileSaver'])
+  .controller('ExampleCtrl', ['$scope', 'FileSaver', ExampleCtrl]);
 </pre>
 
     <h3 id="demo">Demo</h3>
