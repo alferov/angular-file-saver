@@ -31,7 +31,7 @@ function isUndefined(obj) {
   return typeof obj === 'undefined';
 }
 
-function SaveAs($window) {
+function FileSaver($window) {
   var saveAs = $window.saveAs;
   var Blob = $window.Blob;
 
@@ -58,17 +58,19 @@ function SaveAs($window) {
   return {
 
     /**
-    * download - Immediately starts saving a file, returns undefined.
+    * saveAs - Immediately starts saving a file, returns undefined.
     *
-    * @param  {array|Blob} data Represented as an array or a Blob object
-    * @param  {string} filename
-    * @param  {object} options Set of Blob constructor options.
-    * Optional parameter, if Blob object is passed as first argument
+    * @param  {object} config Set of options such as data, filename
+    * and Blob constructor options. Options - optional parameter if data
+    * is represented by blob instance
     * @return {undefined}
     */
 
-    download: function(data, filename, options) {
-      options = options || {};
+    saveAs: function(config) {
+      config = config || {};
+      var data = config.data;
+      var filename = config.filename;
+      var options = config.options;
 
       if (!isArray(data) && !isBlobInstance(data)) {
         handleErrors('Data argument should be represented as an array or Blob instance');
@@ -89,7 +91,7 @@ function SaveAs($window) {
 }
 
 angular
-  .module('fileSaver', [])
-  .factory('SaveAs', ['$window', SaveAs]);
+  .module('ngFileSaver', [])
+  .factory('FileSaver', ['$window', FileSaver]);
 
 },{}]},{},[1]);
