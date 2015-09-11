@@ -12,7 +12,7 @@
   <script src="dist/examples.js"></script>
 </head>
 
-<body ng-app="ngFileSaver">
+<body ng-app="fileSaverExample">
 
   <section class="page-header">
     <h1 class="project-name">Angular File Saver</h1>
@@ -46,34 +46,41 @@
     <h3>Basic usage</h3>
     <ol>
       <li>
-        Include the <code>fileSaver</code> module to yor project;
+        Include the
+        <code>ngFileSaver</code> module to yor project;
       </li>
       <li>
-        Pass <code>SaveAs</code> service as a dependency;
+        Pass
+        <code>FileSaver</code> service as a dependency;
       </li>
       <li>
-        Invoke <code>SaveAs.download()</code> with following arguments:
+        Invoke
+        <code>FileSaver.saveAs()</code> and pass an object with the following set of options:
         <ul>
           <li>
-            <code>data</code> - data, represented as an array or a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a>;
+            <code>data</code> - data represented as an array or a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a>;
           </li>
-
           <li>
             <code>filename</code>
           </li>
-
           <li>
-            <code>options</code> - set of options for the <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob constructor</a> (optional parameter
-            if Blob object is passed as first argument)
+            <code>options</code> - set of options for the <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob constructor</a> ( - `options` - a set of options for the [Blob constructor](https://developer.mozilla.org/en/docs/Web/API/Blob)(optional
+            attribute))
           </li>
         </ul>
       </li>
     </ol>
 
     <p>Example:</p>
-  <pre>  var text = ['Hello world'];
-  var options = { type: "text/plain;charset=utf-8" };
-  SaveAs.download(text, 'textfile.txt', options);</pre>
+<pre>
+var config = {
+  data: ['text'],
+  filename: 'textfile.txt',
+  options: { type: 'text/plain;charset=utf-8' }
+};
+
+FileSaver.saveAs(config);
+</pre>
 
     <h3 id="demo">Demo</h3>
     <p>Download as a text file</p>

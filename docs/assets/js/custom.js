@@ -1,12 +1,8 @@
 var angular = require('angular');
 var fileSaver = require('../../../src/angular-file-saver');
-window.saveAs = require('browser-filesaver');
+window.saveAs = require('FileSaver.js').saveAs;
 
-angular
-  .module('ngFileSaver', ['fileSaver'])
-  .controller('DownloadText', ['$scope', 'SaveAs', DownloadText]);
-
-function DownloadText($scope, SaveAs) {
+function DownloadText($scope, FileSaver) {
   var vm = this;
 
   vm.val = {
@@ -15,11 +11,18 @@ function DownloadText($scope, SaveAs) {
 
   vm.download = function(text) {
 
-    var options =  {
-      type: "text/plain;charset=utf-8"
+    var config = {
+      data: [text],
+      filename: 'textfile.txt',
+      options: {
+        type: 'text/plain;charset=utf-8'
+      }
     };
 
-    SaveAs.download([text], 'textfile.txt', options);
-
+    FileSaver.saveAs(config);
   };
 }
+
+angular
+  .module('fileSaverExample', ['ngFileSaver'])
+  .controller('DownloadText', ['$scope', 'FileSaver', DownloadText]);
