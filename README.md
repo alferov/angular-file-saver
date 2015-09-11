@@ -28,5 +28,33 @@ $ npm install angular-file-saver
   - `filename`;
   - `options` - a set of options for the [Blob constructor](https://developer.mozilla.org/en/docs/Web/API/Blob)(optional attribute);
 
+## Example
+```
+function ExampleCtrl($scope, FileSaver) {
+  var vm = this;
+
+  vm.val = {
+    text: 'Hey ho lets go!'
+  };
+
+  vm.download = function(text) {
+
+    var config = {
+      data: [text],
+      filename: 'textfile.txt',
+      options: {
+        type: 'text/plain;charset=utf-8'
+      }
+    };
+
+    FileSaver.saveAs(config);
+  };
+}
+
+angular
+  .module('fileSaverExample', ['ngFileSaver'])
+  .controller('ExampleCtrl', ['$scope', 'FileSaver', ExampleCtrl]);
+```
+
 ## Demo
 [Demo on the github project page](http://alferov.github.io/angular-file-saver/#demo)
