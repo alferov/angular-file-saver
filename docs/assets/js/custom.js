@@ -1,8 +1,8 @@
+'use strict'
 var angular = require('angular');
-var fileSaver = require('../../../src/angular-file-saver.module');
-window.saveAs = require('FileSaver.js').saveAs;
+require('../../../src/angular-file-saver-bundle.module');
 
-function DownloadText($scope, FileSaver) {
+function DownloadText(FileSaver) {
   var vm = this;
 
   vm.val = {
@@ -25,4 +25,4 @@ function DownloadText($scope, FileSaver) {
 
 angular
   .module('fileSaverExample', ['ngFileSaver'])
-  .controller('DownloadText', ['$scope', 'FileSaver', DownloadText]);
+  .controller('DownloadText', ['FileSaver', DownloadText]);
