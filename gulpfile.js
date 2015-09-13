@@ -31,6 +31,11 @@ var config = {
       bundleName: 'angular-file-saver.js',
       dest: './dist'
     },
+    fileSaverBundle: {
+      entryPoint: './src/angular-file-saver-bundle.module.js',
+      bundleName: 'angular-file-saver.bundle.js',
+      dest: './dist'
+    },
     docs: {
       entryPoint: './docs/assets/js/custom.js',
       bundleName: 'examples.js',
@@ -146,12 +151,19 @@ gulp.task('deploy:docs', function() {
 });
 
 gulp.task('build', function(cb) {
-  sequence('build:src', 'build:docs', cb);
+  sequence('build:src', 'build:docs', 'build:bundle', cb);
 });
 
 gulp.task('build:src', function(cb) {
   config.isProd = true;
   browserifyDefaults = config.browserify.fileSaver;
+
+  sequence('scripts', cb);
+});
+
+gulp.task('build:bundle', function(cb) {
+  config.isProd = true;
+  browserifyDefaults = config.browserify.fileSaverBundle;
 
   sequence('scripts', cb);
 });

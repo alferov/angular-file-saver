@@ -29068,13 +29068,11 @@ module.exports = function Blob($window) {
 },{}],8:[function(require,module,exports){
 'use strict';
 
-var ngFileSaver = require('../angular-file-saver.module');
-
 module.exports = function SaveAs($window) {
   return $window.saveAs;
 };
 
-},{"../angular-file-saver.module":5}],9:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 module.exports = function FileSaverUtils() {
