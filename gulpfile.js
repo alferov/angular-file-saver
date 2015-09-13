@@ -108,7 +108,7 @@ function buildScript() {
         suffix: '.min'
       })))
       .pipe($.size({
-        title: 'Scripts: '
+        title: browserifyDefaults.bundleName + ': '
       }))
       .pipe(gulp.dest(browserifyDefaults.dest))
       .pipe($.if(browserSync.active, browserSync.stream()));
@@ -165,7 +165,7 @@ gulp.task('build:src', function(cb) {
   config.isProd = true;
   browserifyDefaults = config.browserify.fileSaver;
 
-  sequence('scripts', 'build:docs', cb);
+  sequence('scripts', cb);
 });
 
 gulp.task('build:docs', function(cb) {
