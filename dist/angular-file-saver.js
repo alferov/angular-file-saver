@@ -14,21 +14,13 @@
 angular.module('ngFileSaver', [])
   .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', require('./angular-file-saver.service')])
   .factory('FileSaverUtils', [require('./utils/utils.service.js')])
-  .factory('Blob', ['$window', require('./dependencies/blob.service.js')])
-  .factory('SaveAs', ['$window', require('./dependencies/file-saver.service.js')]);
+  .factory('Blob', ['$window', 'FileSaverUtils', require('./dependencies/blob.service.js')])
+  .factory('SaveAs', ['$window', 'FileSaverUtils', require('./dependencies/file-saver.service.js')]);
 
 },{"./angular-file-saver.service":2,"./dependencies/blob.service.js":3,"./dependencies/file-saver.service.js":4,"./utils/utils.service.js":5}],2:[function(require,module,exports){
 'use strict';
 
 module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
-
-  if (FileSaverUtils.isUndefined(FileSaver)) {
-    FileSaverUtils.handleErrors('saveAs is not supported. Please include saveAs polyfill');
-  }
-
-  if (FileSaverUtils.isUndefined(Blob)) {
-    FileSaverUtils.handleErrors('Blob is not supported. Please include blob polyfill');
-  }
 
   function isBlobInstance(obj) {
     return obj instanceof Blob;
@@ -80,15 +72,27 @@ module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
 },{}],3:[function(require,module,exports){
 'use strict';
 
-module.exports = function Blob($window) {
-  return $window.Blob;
+module.exports = function Blob($window, FileSaverUtils) {
+  var blob = $window.Blob;
+
+  if (FileSaverUtils.isUndefined(blob)) {
+    FileSaverUtils.handleErrors('Blob is not supported. Please include blob polyfilll');
+  }
+
+  return blob;
 };
 
 },{}],4:[function(require,module,exports){
 'use strict';
 
-module.exports = function SaveAs($window) {
-  return $window.saveAs;
+module.exports = function SaveAs($window, FileSaverUtils) {
+  var saveAs = $window.saveAs;
+
+  if (FileSaverUtils.isUndefined(saveAs)) {
+    FileSaverUtils.handleErrors('saveAs is not supported. Please include saveAs polyfill');
+  }
+
+  return saveAs;
 };
 
 },{}],5:[function(require,module,exports){

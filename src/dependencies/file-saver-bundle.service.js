@@ -1,7 +1,5 @@
 'use strict';
 
-require('FileSaver.js');
-
-module.exports = function SaveAs($window) {
-  return $window.saveAs;
+module.exports = function SaveAs() {
+  return require('FileSaver.js').saveAs;
 };

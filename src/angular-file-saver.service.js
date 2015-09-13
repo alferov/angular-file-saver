@@ -2,14 +2,6 @@
 
 module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
 
-  if (FileSaverUtils.isUndefined(FileSaver)) {
-    FileSaverUtils.handleErrors('saveAs is not supported. Please include saveAs polyfill');
-  }
-
-  if (FileSaverUtils.isUndefined(Blob)) {
-    FileSaverUtils.handleErrors('Blob is not supported. Please include blob polyfill');
-  }
-
   function isBlobInstance(obj) {
     return obj instanceof Blob;
   }

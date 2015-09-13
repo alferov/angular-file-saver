@@ -486,20 +486,12 @@ angular.module('ngFileSaver', [])
   .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', require('./angular-file-saver.service')])
   .factory('FileSaverUtils', [require('./utils/utils.service.js')])
   .factory('Blob', ['$window', require('./dependencies/blob-bundle.service.js')])
-  .factory('SaveAs', ['$window', require('./dependencies/file-saver-bundle.service.js')]);
+  .factory('SaveAs', [require('./dependencies/file-saver-bundle.service.js')]);
 
 },{"./angular-file-saver.service":4,"./dependencies/blob-bundle.service.js":5,"./dependencies/file-saver-bundle.service.js":6,"./utils/utils.service.js":7}],4:[function(require,module,exports){
 'use strict';
 
 module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
-
-  if (FileSaverUtils.isUndefined(FileSaver)) {
-    FileSaverUtils.handleErrors('saveAs is not supported. Please include saveAs polyfill');
-  }
-
-  if (FileSaverUtils.isUndefined(Blob)) {
-    FileSaverUtils.handleErrors('Blob is not supported. Please include blob polyfill');
-  }
 
   function isBlobInstance(obj) {
     return obj instanceof Blob;
@@ -560,10 +552,8 @@ module.exports = function Blob($window) {
 },{"Blob.js":1}],6:[function(require,module,exports){
 'use strict';
 
-require('FileSaver.js');
-
-module.exports = function SaveAs($window) {
-  return $window.saveAs;
+module.exports = function SaveAs() {
+  return require('FileSaver.js').saveAs;
 };
 
 },{"FileSaver.js":2}],7:[function(require,module,exports){
