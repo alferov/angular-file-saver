@@ -12,7 +12,9 @@ module.exports = function(config) {
     autoWatch: false,
     browserify: {
       debug: true,
-      transform: []
+      transform: [
+        'bulkify'
+      ]
     },
     proxies: {
       '/': 'http://localhost:9876/'
@@ -24,7 +26,7 @@ module.exports = function(config) {
       './node_modules/FileSaver.js/FileSaver.js',
       './node_modules/angular/angular.js',
       './node_modules/angular-mocks/angular-mocks.js',
-      './src/angular-file-saver.js',
+      'src/angular-file-saver.module.js',
       // Test files
       'test/**/*.js'
     ]

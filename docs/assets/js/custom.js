@@ -1,5 +1,5 @@
 var angular = require('angular');
-var fileSaver = require('../../../src/angular-file-saver');
+var fileSaver = require('../../../src/angular-file-saver.module');
 window.saveAs = require('FileSaver.js').saveAs;
 
 function DownloadText($scope, FileSaver) {

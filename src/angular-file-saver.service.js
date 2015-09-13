@@ -1,14 +1,6 @@
 'use strict';
 
-/* angular-file-saver
-*
-* A AngularJS service that implements the HTML5 W3C saveAs() in browsers that
-* do not natively support it
-*
-* (c) 2015 Philipp Alferov
-* License: MIT
-*
-*/
+var ngFileSaver = require('./angular-file-saver.module.js');
 
 function handleErrors(msg) {
   throw new Error(msg);
@@ -89,6 +81,5 @@ function FileSaver($window) {
   };
 }
 
-angular
-  .module('ngFileSaver', [])
+ngFileSaver
   .factory('FileSaver', ['$window', FileSaver]);

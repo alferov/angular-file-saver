@@ -27,7 +27,7 @@ var config = {
   // Predefined browserify configs to keep tasks DRY
   browserify: {
     fileSaver: {
-      entryPoint: './src/angular-file-saver.js',
+      entryPoint: './src/angular-file-saver.module.js',
       bundleName: 'angular-file-saver.js',
       dest: './dist'
     },
@@ -85,6 +85,15 @@ function buildScript() {
     fullPaths: false
   });
 
+  var transforms = [
+    'brfs',
+    'bulkify'
+  ];
+
+  transforms.forEach(function(transform) {
+    bundler.transform(transform);
+  });
+
   function rebundle() {
     var stream = bundler.bundle();
 
@@ -116,7 +125,7 @@ function buildScript() {
   return rebundle();
 }
 
-gulp.task('browserify', function() {
+gulp.task('scripts', function() {
   return buildScript();
 });
 
@@ -156,21 +165,21 @@ gulp.task('build:src', function(cb) {
   config.isProd = true;
   browserifyDefaults = config.browserify.fileSaver;
 
-  sequence('browserify', 'build:docs', cb);
+  sequence('scripts', 'build:docs', cb);
 });
 
 gulp.task('build:docs', function(cb) {
   config.isProd = true;
   browserifyDefaults = config.browserify.docs;
 
-  sequence(['browserify', 'styles:docs'], cb);
+  sequence(['scripts', 'styles:docs'], cb);
 });
 
 gulp.task('dev:docs', function() {
   config.isProd = false;
   browserifyDefaults = config.browserify.docs;
 
-  sequence(['browserify', 'styles:docs'], 'watch:docs');
+  sequence(['scripts', 'styles:docs'], 'watch:docs');
 });
 
 gulp.task('watch:docs', ['serve'], function() {
