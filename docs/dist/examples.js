@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var angular = require('angular');
-var fileSaver = require('../../../src/angular-file-saver');
+var fileSaver = require('../../../src/angular-file-saver.module');
 window.saveAs = require('FileSaver.js').saveAs;
 
 function DownloadText($scope, FileSaver) {
@@ -28,7 +28,7 @@ angular
   .module('fileSaverExample', ['ngFileSaver'])
   .controller('DownloadText', ['$scope', 'FileSaver', DownloadText]);
 
-},{"../../../src/angular-file-saver":5,"FileSaver.js":2,"angular":4}],2:[function(require,module,exports){
+},{"../../../src/angular-file-saver.module":5,"FileSaver.js":2,"angular":4}],2:[function(require,module,exports){
 /* FileSaver.js
  * A saveAs() FileSaver implementation.
  * 1.1.20150716
@@ -28982,15 +28982,26 @@ module.exports = angular;
 },{"./angular":3}],5:[function(require,module,exports){
 'use strict';
 
-/* angular-file-saver
+/*
 *
-* A AngularJS service that implements the HTML5 W3C saveAs() in browsers that
+* A AngularJS module that implements the HTML5 W3C saveAs() in browsers that
 * do not natively support it
 *
 * (c) 2015 Philipp Alferov
 * License: MIT
 *
 */
+
+
+
+module.exports = angular.module('ngFileSaver', []);
+
+({"angular-file-saver.service":require("./angular-file-saver.service.js"),"blob-polyfill.service":require("./blob-polyfill.service.js"),"file-saver-polyfill.service":require("./file-saver-polyfill.service.js")});
+
+},{"./angular-file-saver.service.js":6,"./blob-polyfill.service.js":7,"./file-saver-polyfill.service.js":8}],6:[function(require,module,exports){
+'use strict';
+
+var ngFileSaver = require('./angular-file-saver.module.js');
 
 function handleErrors(msg) {
   throw new Error(msg);
@@ -29071,8 +29082,11 @@ function FileSaver($window) {
   };
 }
 
-angular
-  .module('ngFileSaver', [])
+ngFileSaver
   .factory('FileSaver', ['$window', FileSaver]);
 
-},{}]},{},[1]);
+},{"./angular-file-saver.module.js":5}],7:[function(require,module,exports){
+
+},{}],8:[function(require,module,exports){
+arguments[4][7][0].apply(exports,arguments)
+},{"dup":7}]},{},[1]);
