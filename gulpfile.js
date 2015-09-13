@@ -85,15 +85,6 @@ function buildScript() {
     fullPaths: false
   });
 
-  var transforms = [
-    'brfs',
-    'bulkify'
-  ];
-
-  transforms.forEach(function(transform) {
-    bundler.transform(transform);
-  });
-
   function rebundle() {
     var stream = bundler.bundle();
 

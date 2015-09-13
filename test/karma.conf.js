@@ -13,7 +13,6 @@ module.exports = function(config) {
     browserify: {
       debug: true,
       transform: [
-        'bulkify'
       ]
     },
     proxies: {

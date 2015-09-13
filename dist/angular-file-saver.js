@@ -11,45 +11,23 @@
 *
 */
 
+angular.module('ngFileSaver', [])
+  .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', require('./angular-file-saver.service')])
+  .factory('FileSaverUtils', [require('./utils/utils.service.js')])
+  .factory('Blob', ['$window', require('./dependencies/blob.service.js')])
+  .factory('SaveAs', ['$window', require('./dependencies/file-saver.service.js')]);
 
-
-module.exports = angular.module('ngFileSaver', []);
-
-({"angular-file-saver.service":require("./angular-file-saver.service.js"),"blob.service":require("./blob.service.js"),"file-saver.service":require("./file-saver.service.js")});
-
-},{"./angular-file-saver.service.js":2,"./blob.service.js":3,"./file-saver.service.js":4}],2:[function(require,module,exports){
+},{"./angular-file-saver.service":2,"./dependencies/blob.service.js":3,"./dependencies/file-saver.service.js":4,"./utils/utils.service.js":5}],2:[function(require,module,exports){
 'use strict';
 
-var ngFileSaver = require('./angular-file-saver.module.js');
+module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
 
-function handleErrors(msg) {
-  throw new Error(msg);
-}
-
-function isArray(obj) {
-  return Object.prototype.toString.call(obj) === '[object Array]';
-}
-
-function isObject(obj) {
-  return obj !== null && typeof obj === 'object';
-}
-
-function isString(obj) {
-  return typeof obj === 'string' || obj instanceof String;
-}
-
-function isUndefined(obj) {
-  return typeof obj === 'undefined';
-}
-
-function FileSaver($window, Blob, SaveAs) {
-  console.log(Blob, SaveAs);
-  if (isUndefined(FileSaver)) {
-    handleErrors('saveAs is not supported. Please include saveAs polyfill');
+  if (FileSaverUtils.isUndefined(FileSaver)) {
+    FileSaverUtils.handleErrors('saveAs is not supported. Please include saveAs polyfill');
   }
 
-  if (isUndefined(Blob)) {
-    handleErrors('Blob is not supported. Please include blob polyfill');
+  if (FileSaverUtils.isUndefined(Blob)) {
+    FileSaverUtils.handleErrors('Blob is not supported. Please include blob polyfill');
   }
 
   function isBlobInstance(obj) {
@@ -60,7 +38,7 @@ function FileSaver($window, Blob, SaveAs) {
     try {
       SaveAs(blob, filename);
     } catch(err) {
-      handleErrors(err.message);
+      FileSaverUtils.handleErrors(err.message);
     }
   }
 
@@ -81,12 +59,12 @@ function FileSaver($window, Blob, SaveAs) {
       var filename = config.filename;
       var options = config.options;
 
-      if (!isArray(data) && !isBlobInstance(data)) {
-        handleErrors('Data argument should be represented as an array or Blob instance');
+      if (!FileSaverUtils.isArray(data) && !isBlobInstance(data)) {
+        FileSaverUtils.handleErrors('Data argument should be represented as an array or Blob instance');
       }
 
-      if (!isString(filename)) {
-        handleErrors('Filename argument should be a string');
+      if (!FileSaverUtils.isString(filename)) {
+        FileSaverUtils.handleErrors('Filename argument should be a string');
       }
 
       if (isBlobInstance(data)) {
@@ -97,35 +75,45 @@ function FileSaver($window, Blob, SaveAs) {
       return save(blob, filename);
     }
   };
-}
+};
 
-ngFileSaver
-  .factory('FileSaver', ['$window', FileSaver]);
-
-},{"./angular-file-saver.module.js":1}],3:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict';
 
-var ngFileSaver = require('./angular-file-saver.module.js');
-
-
-function Blob($window) {
+module.exports = function Blob($window) {
   return $window.Blob;
-}
+};
 
-ngFileSaver
-  .factory('Blob', ['$window', Blob]);
-
-},{"./angular-file-saver.module.js":1}],4:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
-var ngFileSaver = require('./angular-file-saver.module.js');
+var ngFileSaver = require('../angular-file-saver.module');
 
-
-function SaveAs($window) {
+module.exports = function SaveAs($window) {
   return $window.saveAs;
-}
+};
 
-ngFileSaver
-  .factory('SaveAs', ['$window', SaveAs]);
+},{"../angular-file-saver.module":1}],5:[function(require,module,exports){
+'use strict';
 
-},{"./angular-file-saver.module.js":1}]},{},[1]);
+module.exports = function FileSaverUtils() {
+  return {
+    handleErrors: function(msg) {
+      throw new Error(msg);
+    },
+    isArray: function isArray(obj) {
+      return Object.prototype.toString.call(obj) === '[object Array]';
+    },
+    isObject: function(obj) {
+      return obj !== null && typeof obj === 'object';
+    },
+    isString: function(obj) {
+      return typeof obj === 'string' || obj instanceof String;
+    },
+    isUndefined: function isUndefined(obj) {
+      return typeof obj === 'undefined';
+    }
+  };
+};
+
+},{}]},{},[1]);

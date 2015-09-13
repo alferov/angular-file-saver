@@ -1,8 +1,6 @@
 'use strict';
 
-var ngFileSaver = require('./angular-file-saver.module');
-
-function FileSaver(Blob, SaveAs, FileSaverUtils) {
+module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
 
   if (FileSaverUtils.isUndefined(FileSaver)) {
     FileSaverUtils.handleErrors('saveAs is not supported. Please include saveAs polyfill');
@@ -57,7 +55,4 @@ function FileSaver(Blob, SaveAs, FileSaverUtils) {
       return save(blob, filename);
     }
   };
-}
-
-ngFileSaver
-  .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', FileSaver]);
+};

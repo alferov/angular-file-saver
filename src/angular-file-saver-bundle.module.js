@@ -13,5 +13,5 @@
 angular.module('ngFileSaver', [])
   .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', require('./angular-file-saver.service')])
   .factory('FileSaverUtils', [require('./utils/utils.service.js')])
-  .factory('Blob', ['$window', require('./dependencies/blob.service.js')])
-  .factory('SaveAs', ['$window', require('./dependencies/file-saver.service.js')]);
+  .factory('Blob', ['$window', require('./dependencies/blob-bundle.service.js')])
+  .factory('SaveAs', ['$window', require('./dependencies/file-saver-bundle.service.js')]);

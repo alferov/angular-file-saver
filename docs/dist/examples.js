@@ -28992,18 +28992,16 @@ module.exports = angular;
 *
 */
 
+angular.module('ngFileSaver', [])
+  .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', require('./angular-file-saver.service')])
+  .factory('FileSaverUtils', [require('./utils/utils.service.js')])
+  .factory('Blob', ['$window', require('./dependencies/blob.service.js')])
+  .factory('SaveAs', ['$window', require('./dependencies/file-saver.service.js')]);
 
-
-module.exports = angular.module('ngFileSaver', []);
-
-({"angular-file-saver.service":require("./angular-file-saver.service.js"),"blob.service":require("./blob.service.js"),"file-saver.service":require("./file-saver.service.js")});
-
-},{"./angular-file-saver.service.js":6,"./blob.service.js":7,"./file-saver.service.js":8}],6:[function(require,module,exports){
+},{"./angular-file-saver.service":6,"./dependencies/blob.service.js":7,"./dependencies/file-saver.service.js":8,"./utils/utils.service.js":9}],6:[function(require,module,exports){
 'use strict';
 
-var ngFileSaver = require('./angular-file-saver.module.js');
-
-function FileSaver(Blob, SaveAs, FileSaverUtils) {
+module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
 
   if (FileSaverUtils.isUndefined(FileSaver)) {
     FileSaverUtils.handleErrors('saveAs is not supported. Please include saveAs polyfill');
@@ -29058,33 +29056,45 @@ function FileSaver(Blob, SaveAs, FileSaverUtils) {
       return save(blob, filename);
     }
   };
-}
+};
 
-ngFileSaver
-  .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', FileSaver]);
-
-},{"./angular-file-saver.module.js":5}],7:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
-var ngFileSaver = require('./angular-file-saver.module.js');
-
-function Blob($window) {
+module.exports = function Blob($window) {
   return $window.Blob;
-}
+};
 
-ngFileSaver
-  .factory('Blob', ['$window', Blob]);
-
-},{"./angular-file-saver.module.js":5}],8:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
-var ngFileSaver = require('./angular-file-saver.module.js');
+var ngFileSaver = require('../angular-file-saver.module');
 
-function SaveAs($window) {
+module.exports = function SaveAs($window) {
   return $window.saveAs;
-}
+};
 
-ngFileSaver
-  .factory('SaveAs', ['$window', SaveAs]);
+},{"../angular-file-saver.module":5}],9:[function(require,module,exports){
+'use strict';
 
-},{"./angular-file-saver.module.js":5}]},{},[1]);
+module.exports = function FileSaverUtils() {
+  return {
+    handleErrors: function(msg) {
+      throw new Error(msg);
+    },
+    isArray: function isArray(obj) {
+      return Object.prototype.toString.call(obj) === '[object Array]';
+    },
+    isObject: function(obj) {
+      return obj !== null && typeof obj === 'object';
+    },
+    isString: function(obj) {
+      return typeof obj === 'string' || obj instanceof String;
+    },
+    isUndefined: function isUndefined(obj) {
+      return typeof obj === 'undefined';
+    }
+  };
+};
+
+},{}]},{},[1]);

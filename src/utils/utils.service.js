@@ -1,8 +1,6 @@
 'use strict';
 
-var ngFileSaver = require('../angular-file-saver.module');
-
-function FileSaverUtils() {
+module.exports = function FileSaverUtils() {
   return {
     handleErrors: function(msg) {
       throw new Error(msg);
@@ -20,7 +18,4 @@ function FileSaverUtils() {
       return typeof obj === 'undefined';
     }
   };
-}
-
-ngFileSaver
-  .factory('FileSaverUtils', [FileSaverUtils]);
+};
