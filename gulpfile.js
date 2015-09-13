@@ -107,10 +107,7 @@ function buildScript() {
       .pipe($.if(config.isProd, $.rename({
         suffix: '.min'
       })))
-      .pipe($.size({
-        title: browserifyDefaults.bundleName + ': '
-      }))
-      .pipe(gulp.dest(browserifyDefaults.dest))
+      .pipe($.if(config.isProd, gulp.dest(browserifyDefaults.dest)))
       .pipe($.if(browserSync.active, browserSync.stream()));
   }
 
