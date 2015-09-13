@@ -15,9 +15,9 @@
 
 module.exports = angular.module('ngFileSaver', []);
 
-({"angular-file-saver.service":require("./angular-file-saver.service.js"),"blob-polyfill.service":require("./blob-polyfill.service.js"),"file-saver-polyfill.service":require("./file-saver-polyfill.service.js")});
+({"angular-file-saver.service":require("./angular-file-saver.service.js"),"blob.service":require("./blob.service.js"),"file-saver.service":require("./file-saver.service.js")});
 
-},{"./angular-file-saver.service.js":2,"./blob-polyfill.service.js":3,"./file-saver-polyfill.service.js":4}],2:[function(require,module,exports){
+},{"./angular-file-saver.service.js":2,"./blob.service.js":3,"./file-saver.service.js":4}],2:[function(require,module,exports){
 'use strict';
 
 var ngFileSaver = require('./angular-file-saver.module.js');
@@ -42,11 +42,9 @@ function isUndefined(obj) {
   return typeof obj === 'undefined';
 }
 
-function FileSaver($window) {
-  var saveAs = $window.saveAs;
-  var Blob = $window.Blob;
-
-  if (isUndefined(saveAs)) {
+function FileSaver($window, Blob, SaveAs) {
+  console.log(Blob, SaveAs);
+  if (isUndefined(FileSaver)) {
     handleErrors('saveAs is not supported. Please include saveAs polyfill');
   }
 
@@ -60,7 +58,7 @@ function FileSaver($window) {
 
   function save(blob, filename) {
     try {
-      saveAs(blob, filename);
+      SaveAs(blob, filename);
     } catch(err) {
       handleErrors(err.message);
     }
@@ -105,7 +103,29 @@ ngFileSaver
   .factory('FileSaver', ['$window', FileSaver]);
 
 },{"./angular-file-saver.module.js":1}],3:[function(require,module,exports){
+'use strict';
 
-},{}],4:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}]},{},[1]);
+var ngFileSaver = require('./angular-file-saver.module.js');
+
+
+function Blob($window) {
+  return $window.Blob;
+}
+
+ngFileSaver
+  .factory('Blob', ['$window', Blob]);
+
+},{"./angular-file-saver.module.js":1}],4:[function(require,module,exports){
+'use strict';
+
+var ngFileSaver = require('./angular-file-saver.module.js');
+
+
+function SaveAs($window) {
+  return $window.saveAs;
+}
+
+ngFileSaver
+  .factory('SaveAs', ['$window', SaveAs]);
+
+},{"./angular-file-saver.module.js":1}]},{},[1]);

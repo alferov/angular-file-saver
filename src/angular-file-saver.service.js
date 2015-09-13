@@ -1,37 +1,15 @@
 'use strict';
 
-var ngFileSaver = require('./angular-file-saver.module.js');
+var ngFileSaver = require('./angular-file-saver.module');
 
-function handleErrors(msg) {
-  throw new Error(msg);
-}
+function FileSaver(Blob, SaveAs, FileSaverUtils) {
 
-function isArray(obj) {
-  return Object.prototype.toString.call(obj) === '[object Array]';
-}
-
-function isObject(obj) {
-  return obj !== null && typeof obj === 'object';
-}
-
-function isString(obj) {
-  return typeof obj === 'string' || obj instanceof String;
-}
-
-function isUndefined(obj) {
-  return typeof obj === 'undefined';
-}
-
-function FileSaver($window) {
-  var saveAs = $window.saveAs;
-  var Blob = $window.Blob;
-
-  if (isUndefined(saveAs)) {
-    handleErrors('saveAs is not supported. Please include saveAs polyfill');
+  if (FileSaverUtils.isUndefined(FileSaver)) {
+    FileSaverUtils.handleErrors('saveAs is not supported. Please include saveAs polyfill');
   }
 
-  if (isUndefined(Blob)) {
-    handleErrors('Blob is not supported. Please include blob polyfill');
+  if (FileSaverUtils.isUndefined(Blob)) {
+    FileSaverUtils.handleErrors('Blob is not supported. Please include blob polyfill');
   }
 
   function isBlobInstance(obj) {
@@ -40,9 +18,9 @@ function FileSaver($window) {
 
   function save(blob, filename) {
     try {
-      saveAs(blob, filename);
+      SaveAs(blob, filename);
     } catch(err) {
-      handleErrors(err.message);
+      FileSaverUtils.handleErrors(err.message);
     }
   }
 
@@ -63,12 +41,12 @@ function FileSaver($window) {
       var filename = config.filename;
       var options = config.options;
 
-      if (!isArray(data) && !isBlobInstance(data)) {
-        handleErrors('Data argument should be represented as an array or Blob instance');
+      if (!FileSaverUtils.isArray(data) && !isBlobInstance(data)) {
+        FileSaverUtils.handleErrors('Data argument should be represented as an array or Blob instance');
       }
 
-      if (!isString(filename)) {
-        handleErrors('Filename argument should be a string');
+      if (!FileSaverUtils.isString(filename)) {
+        FileSaverUtils.handleErrors('Filename argument should be a string');
       }
 
       if (isBlobInstance(data)) {
@@ -82,4 +60,4 @@ function FileSaver($window) {
 }
 
 ngFileSaver
-  .factory('FileSaver', ['$window', FileSaver]);
+  .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', FileSaver]);
