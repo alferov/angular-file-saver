@@ -2,18 +2,16 @@
 
 describe('angular-file-saver', function() {
 
-  var FileSaver, $window, Blob, config;
-  beforeEach(module('ngFileSaver'));
+  var FileSaver, config;
 
-  beforeEach(inject(function(_FileSaver_, _$window_) {
-    FileSaver = _FileSaver_;
-    $window = _$window_;
-    Blob = $window.Blob;
-  }));
+  beforeEach(function() {
 
-  it('should not throw an error if dependencies are defined', function() {
-    expect($window.saveAs).toBeDefined();
-    expect($window.Blob).toBeDefined();
+    angular.mock.module('ngFileSaver');
+
+    angular.mock.inject(function(_FileSaver_) {
+      FileSaver = _FileSaver_;
+    });
+
   });
 
   describe('passed arguments are correct', function() {

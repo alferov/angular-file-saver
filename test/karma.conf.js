@@ -21,11 +21,9 @@ module.exports = function(config) {
     urlRoot: '/__karma__/',
     singleRun: true,
     files: [
-      './node_modules/Blob.js/Blob.js',
-      './node_modules/FileSaver.js/FileSaver.js',
       './node_modules/angular/angular.js',
       './node_modules/angular-mocks/angular-mocks.js',
-      'src/angular-file-saver.module.js',
+      'src/angular-file-saver-bundle.module.js',
       // Test files
       'test/**/*.js'
     ]
