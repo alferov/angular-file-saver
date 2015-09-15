@@ -11,7 +11,6 @@ describe('angular-file-saver', function() {
     angular.mock.inject(function(_FileSaver_) {
       FileSaver = _FileSaver_;
     });
-
   });
 
   describe('passed arguments are correct', function() {

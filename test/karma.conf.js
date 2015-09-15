@@ -25,7 +25,7 @@ module.exports = function(config) {
       './node_modules/angular-mocks/angular-mocks.js',
       'src/angular-file-saver-bundle.module.js',
       // Test files
-      'test/**/*.js'
+      'test/**/*.spec.js'
     ]
   });
 };
