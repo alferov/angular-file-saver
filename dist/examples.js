@@ -1,9 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict'
 var angular = require('angular');
-var fileSaver = require('../../../src/angular-file-saver');
-window.saveAs = require('FileSaver.js').saveAs;
+require('../../../src/angular-file-saver-bundle.module');
 
-function DownloadText($scope, FileSaver) {
+function DownloadText(FileSaver) {
   var vm = this;
 
   vm.val = {
@@ -26,9 +26,222 @@ function DownloadText($scope, FileSaver) {
 
 angular
   .module('fileSaverExample', ['ngFileSaver'])
-  .controller('DownloadText', ['$scope', 'FileSaver', DownloadText]);
+  .controller('DownloadText', ['FileSaver', DownloadText]);
 
-},{"../../../src/angular-file-saver":5,"FileSaver.js":2,"angular":4}],2:[function(require,module,exports){
+},{"../../../src/angular-file-saver-bundle.module":6,"angular":5}],2:[function(require,module,exports){
+/* Blob.js
+ * A Blob implementation.
+ * 2014-07-24
+ *
+ * By Eli Grey, http://eligrey.com
+ * By Devin Samarin, https://github.com/dsamarin
+ * License: X11/MIT
+ *   See https://github.com/eligrey/Blob.js/blob/master/LICENSE.md
+ */
+
+/*global self, unescape */
+/*jslint bitwise: true, regexp: true, confusion: true, es5: true, vars: true, white: true,
+  plusplus: true */
+
+/*! @source http://purl.eligrey.com/github/Blob.js/blob/master/Blob.js */
+
+(function (view) {
+	"use strict";
+
+	view.URL = view.URL || view.webkitURL;
+
+	if (view.Blob && view.URL) {
+		try {
+			new Blob;
+			return;
+		} catch (e) {}
+	}
+
+	// Internally we use a BlobBuilder implementation to base Blob off of
+	// in order to support older browsers that only have BlobBuilder
+	var BlobBuilder = view.BlobBuilder || view.WebKitBlobBuilder || view.MozBlobBuilder || (function(view) {
+		var
+			  get_class = function(object) {
+				return Object.prototype.toString.call(object).match(/^\[object\s(.*)\]$/)[1];
+			}
+			, FakeBlobBuilder = function BlobBuilder() {
+				this.data = [];
+			}
+			, FakeBlob = function Blob(data, type, encoding) {
+				this.data = data;
+				this.size = data.length;
+				this.type = type;
+				this.encoding = encoding;
+			}
+			, FBB_proto = FakeBlobBuilder.prototype
+			, FB_proto = FakeBlob.prototype
+			, FileReaderSync = view.FileReaderSync
+			, FileException = function(type) {
+				this.code = this[this.name = type];
+			}
+			, file_ex_codes = (
+				  "NOT_FOUND_ERR SECURITY_ERR ABORT_ERR NOT_READABLE_ERR ENCODING_ERR "
+				+ "NO_MODIFICATION_ALLOWED_ERR INVALID_STATE_ERR SYNTAX_ERR"
+			).split(" ")
+			, file_ex_code = file_ex_codes.length
+			, real_URL = view.URL || view.webkitURL || view
+			, real_create_object_URL = real_URL.createObjectURL
+			, real_revoke_object_URL = real_URL.revokeObjectURL
+			, URL = real_URL
+			, btoa = view.btoa
+			, atob = view.atob
+
+			, ArrayBuffer = view.ArrayBuffer
+			, Uint8Array = view.Uint8Array
+
+			, origin = /^[\w-]+:\/*\[?[\w\.:-]+\]?(?::[0-9]+)?/
+		;
+		FakeBlob.fake = FB_proto.fake = true;
+		while (file_ex_code--) {
+			FileException.prototype[file_ex_codes[file_ex_code]] = file_ex_code + 1;
+		}
+		// Polyfill URL
+		if (!real_URL.createObjectURL) {
+			URL = view.URL = function(uri) {
+				var
+					  uri_info = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+					, uri_origin
+				;
+				uri_info.href = uri;
+				if (!("origin" in uri_info)) {
+					if (uri_info.protocol.toLowerCase() === "data:") {
+						uri_info.origin = null;
+					} else {
+						uri_origin = uri.match(origin);
+						uri_info.origin = uri_origin && uri_origin[1];
+					}
+				}
+				return uri_info;
+			};
+		}
+		URL.createObjectURL = function(blob) {
+			var
+				  type = blob.type
+				, data_URI_header
+			;
+			if (type === null) {
+				type = "application/octet-stream";
+			}
+			if (blob instanceof FakeBlob) {
+				data_URI_header = "data:" + type;
+				if (blob.encoding === "base64") {
+					return data_URI_header + ";base64," + blob.data;
+				} else if (blob.encoding === "URI") {
+					return data_URI_header + "," + decodeURIComponent(blob.data);
+				} if (btoa) {
+					return data_URI_header + ";base64," + btoa(blob.data);
+				} else {
+					return data_URI_header + "," + encodeURIComponent(blob.data);
+				}
+			} else if (real_create_object_URL) {
+				return real_create_object_URL.call(real_URL, blob);
+			}
+		};
+		URL.revokeObjectURL = function(object_URL) {
+			if (object_URL.substring(0, 5) !== "data:" && real_revoke_object_URL) {
+				real_revoke_object_URL.call(real_URL, object_URL);
+			}
+		};
+		FBB_proto.append = function(data/*, endings*/) {
+			var bb = this.data;
+			// decode data to a binary string
+			if (Uint8Array && (data instanceof ArrayBuffer || data instanceof Uint8Array)) {
+				var
+					  str = ""
+					, buf = new Uint8Array(data)
+					, i = 0
+					, buf_len = buf.length
+				;
+				for (; i < buf_len; i++) {
+					str += String.fromCharCode(buf[i]);
+				}
+				bb.push(str);
+			} else if (get_class(data) === "Blob" || get_class(data) === "File") {
+				if (FileReaderSync) {
+					var fr = new FileReaderSync;
+					bb.push(fr.readAsBinaryString(data));
+				} else {
+					// async FileReader won't work as BlobBuilder is sync
+					throw new FileException("NOT_READABLE_ERR");
+				}
+			} else if (data instanceof FakeBlob) {
+				if (data.encoding === "base64" && atob) {
+					bb.push(atob(data.data));
+				} else if (data.encoding === "URI") {
+					bb.push(decodeURIComponent(data.data));
+				} else if (data.encoding === "raw") {
+					bb.push(data.data);
+				}
+			} else {
+				if (typeof data !== "string") {
+					data += ""; // convert unsupported types to strings
+				}
+				// decode UTF-16 to binary string
+				bb.push(unescape(encodeURIComponent(data)));
+			}
+		};
+		FBB_proto.getBlob = function(type) {
+			if (!arguments.length) {
+				type = null;
+			}
+			return new FakeBlob(this.data.join(""), type, "raw");
+		};
+		FBB_proto.toString = function() {
+			return "[object BlobBuilder]";
+		};
+		FB_proto.slice = function(start, end, type) {
+			var args = arguments.length;
+			if (args < 3) {
+				type = null;
+			}
+			return new FakeBlob(
+				  this.data.slice(start, args > 1 ? end : this.data.length)
+				, type
+				, this.encoding
+			);
+		};
+		FB_proto.toString = function() {
+			return "[object Blob]";
+		};
+		FB_proto.close = function() {
+			this.size = 0;
+			delete this.data;
+		};
+		return FakeBlobBuilder;
+	}(view));
+
+	view.Blob = function(blobParts, options) {
+		var type = options ? (options.type || "") : "";
+		var builder = new BlobBuilder();
+		if (blobParts) {
+			for (var i = 0, len = blobParts.length; i < len; i++) {
+				if (Uint8Array && blobParts[i] instanceof Uint8Array) {
+					builder.append(blobParts[i].buffer);
+				}
+				else {
+					builder.append(blobParts[i]);
+				}
+			}
+		}
+		var blob = builder.getBlob(type);
+		if (!blob.slice && blob.webkitSlice) {
+			blob.slice = blob.webkitSlice;
+		}
+		return blob;
+	};
+
+	var getPrototypeOf = Object.getPrototypeOf || function(object) {
+		return object.__proto__;
+	};
+	view.Blob.prototype = getPrototypeOf(new view.Blob());
+}(typeof self !== "undefined" && self || typeof window !== "undefined" && window || this.content || this));
+
+},{}],3:[function(require,module,exports){
 /* FileSaver.js
  * A saveAs() FileSaver implementation.
  * 1.1.20150716
@@ -286,7 +499,7 @@ if (typeof module !== "undefined" && module.exports) {
   });
 }
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.5
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -28975,16 +29188,16 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":3}],5:[function(require,module,exports){
+},{"./angular":4}],6:[function(require,module,exports){
 'use strict';
 
-/* angular-file-saver
+/*
 *
-* A AngularJS service that implements the HTML5 W3C saveAs() in browsers that
+* A AngularJS module that implements the HTML5 W3C saveAs() in browsers that
 * do not natively support it
 *
 * (c) 2015 Philipp Alferov
@@ -28992,37 +29205,16 @@ module.exports = angular;
 *
 */
 
-function handleErrors(msg) {
-  throw new Error(msg);
-}
+angular.module('ngFileSaver', [])
+  .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', require('./angular-file-saver.service')])
+  .factory('FileSaverUtils', [require('./utils/utils.service.js')])
+  .factory('Blob', ['$window', require('./dependencies/blob-bundle.service.js')])
+  .factory('SaveAs', [require('./dependencies/file-saver-bundle.service.js')]);
 
-function isArray(obj) {
-  return Object.prototype.toString.call(obj) === '[object Array]';
-}
+},{"./angular-file-saver.service":7,"./dependencies/blob-bundle.service.js":8,"./dependencies/file-saver-bundle.service.js":9,"./utils/utils.service.js":10}],7:[function(require,module,exports){
+'use strict';
 
-function isObject(obj) {
-  return obj !== null && typeof obj === 'object';
-}
-
-function isString(obj) {
-  return typeof obj === 'string' || obj instanceof String;
-}
-
-function isUndefined(obj) {
-  return typeof obj === 'undefined';
-}
-
-function FileSaver($window) {
-  var saveAs = $window.saveAs;
-  var Blob = $window.Blob;
-
-  if (isUndefined(saveAs)) {
-    handleErrors('saveAs is not supported. Please include saveAs polyfill');
-  }
-
-  if (isUndefined(Blob)) {
-    handleErrors('Blob is not supported. Please include blob polyfill');
-  }
+module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
 
   function isBlobInstance(obj) {
     return obj instanceof Blob;
@@ -29030,9 +29222,9 @@ function FileSaver($window) {
 
   function save(blob, filename) {
     try {
-      saveAs(blob, filename);
+      SaveAs(blob, filename);
     } catch(err) {
-      handleErrors(err.message);
+      FileSaverUtils.handleErrors(err.message);
     }
   }
 
@@ -29053,12 +29245,12 @@ function FileSaver($window) {
       var filename = config.filename;
       var options = config.options;
 
-      if (!isArray(data) && !isBlobInstance(data)) {
-        handleErrors('Data argument should be represented as an array or Blob instance');
+      if (!FileSaverUtils.isArray(data) && !isBlobInstance(data)) {
+        FileSaverUtils.handleErrors('Data argument should be represented as an array or Blob instance');
       }
 
-      if (!isString(filename)) {
-        handleErrors('Filename argument should be a string');
+      if (!FileSaverUtils.isString(filename)) {
+        FileSaverUtils.handleErrors('Filename argument should be a string');
       }
 
       if (isBlobInstance(data)) {
@@ -29069,10 +29261,45 @@ function FileSaver($window) {
       return save(blob, filename);
     }
   };
-}
+};
 
-angular
-  .module('ngFileSaver', [])
-  .factory('FileSaver', ['$window', FileSaver]);
+},{}],8:[function(require,module,exports){
+'use strict';
+
+require('Blob.js');
+
+module.exports = function Blob($window) {
+  return $window.Blob;
+};
+
+},{"Blob.js":2}],9:[function(require,module,exports){
+'use strict';
+
+module.exports = function SaveAs() {
+  return require('FileSaver.js').saveAs;
+};
+
+},{"FileSaver.js":3}],10:[function(require,module,exports){
+'use strict';
+
+module.exports = function FileSaverUtils() {
+  return {
+    handleErrors: function(msg) {
+      throw new Error(msg);
+    },
+    isArray: function isArray(obj) {
+      return Object.prototype.toString.call(obj) === '[object Array]';
+    },
+    isObject: function(obj) {
+      return obj !== null && typeof obj === 'object';
+    },
+    isString: function(obj) {
+      return typeof obj === 'string' || obj instanceof String;
+    },
+    isUndefined: function isUndefined(obj) {
+      return typeof obj === 'undefined';
+    }
+  };
+};
 
 },{}]},{},[1]);
