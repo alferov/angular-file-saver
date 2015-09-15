@@ -5,13 +5,10 @@
   <meta charset="UTF-8">
   <title>Angular File Saver - an AngularJS service that provides cross-browser compatibility of the HTML5 saveAs()</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" type="text/css" href="dist/examples.css" media="screen">
   <script src="dist/examples.js"></script>
 </head>
-
 <body ng-app="fileSaverExample">
 
   <section class="page-header">
@@ -23,69 +20,52 @@
   </section>
 
   <section class="main-content">
-    <h3>
-      <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true">
-        <span class="octicon octicon-link"></span>
-      </a>
-      Installation
-    </h3>
 
-    <p>Using bower</p>
-    <pre>$ bower install angular-file-saver</pre>
-
-    <p>Using npm</p>
-    <pre>$ npm install angular-file-saver</pre>
-
-    <h3>Dependencies</h3>
-    <ul>
-      <li><a href="https://github.com/angular/angular.js">AngularJS</a></li>
-      <li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
-      <li><a href="https://github.com/eligrey/Blob.js/">Blob.js</a></li>
-    </ul>
-
-    <h3>Basic usage</h3>
-    <ol>
-      <li>
-        Include the
-        <code>ngFileSaver</code> module to yor project;
-      </li>
-      <li>
-        Pass
-        <code>FileSaver</code> service as a dependency;
-      </li>
-      <li>
-        Invoke
-        <code>FileSaver.saveAs()</code> and pass an object with the following set of options:
-        <ul>
-          <li>
-            <code>data</code> - data represented as an array or a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a>;
-          </li>
-          <li>
-            <code>filename</code>
-          </li>
-          <li>
-            <code>options</code> - set of options for the <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob constructor</a> (optional attribute)
-          </li>
-        </ul>
-      </li>
-    </ol>
-
-    <p>Example:</p>
-<pre>
-function ExampleCtrl($scope, FileSaver) {
+    <!-- inject:html -->
+    <h1 id="angular-file-saver">Angular File Saver</h1>
+<p>Angular-file-saver is an AngularJS service that leverages
+<a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a> and
+<a href="https://github.com/eligrey/Blob.js/">Blob.js</a> to implement the HTML5 W3C
+saveAs() FileSaver interface in browsers that do not natively support it.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li><a href="https://github.com/angular/angular.js">AngularJS</a></li>
+<li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
+<li><a href="https://github.com/eligrey/Blob.js/">Blob.js</a></li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>Using bower:</p>
+<pre><code>$ bower install angular-file-saver
+</code></pre><p>Using npm:</p>
+<pre><code>$ npm install angular-file-saver
+</code></pre><p><code>dist/angular-file-saver.bundle.js</code> contains all required dependencies and grants access to both <code>Blob.js</code> and <code>FileSaver.js</code> polyfills via <code>Blob</code> and <code>SaveAs</code> services (include <code>ngFileSaver</code> module as a dependency first).</p>
+<h2 id="basic-usage">Basic usage</h2>
+<ul>
+<li>Include the <code>ngFileSaver</code> module to your project;</li>
+<li>Pass <code>FileSaver</code> service as a dependency;</li>
+<li>Invoke <code>FileSaver.saveAs</code> and pass an object with the following set of options:<ul>
+<li><code>data</code> - data, represented as an array or a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a>;</li>
+<li><code>filename</code>;</li>
+<li><code>options</code> - a set of options for the <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob constructor</a>(optional attribute);</li>
+</ul>
+</li>
+</ul>
+<h2 id="example">Example</h2>
+<p><strong>JS</strong></p>
+<pre><code>function ExampleCtrl(FileSaver) {
   var vm = this;
 
   vm.val = {
-    text: 'Hey ho lets go!'
+    text: &#39;Hey ho lets go!&#39;
   };
 
   vm.download = function(text) {
 
     var config = {
       data: [text],
-      filename: 'textfile.txt',
+      filename: &#39;textfile.txt&#39;,
       options: {
-        type: 'text/plain;charset=utf-8'
+        type: &#39;text/plain;charset=utf-8&#39;
       }
     };
 
@@ -94,9 +74,24 @@ function ExampleCtrl($scope, FileSaver) {
 }
 
 angular
-  .module('fileSaverExample', ['ngFileSaver'])
-  .controller('ExampleCtrl', ['$scope', 'FileSaver', ExampleCtrl]);
-</pre>
+  .module(&#39;fileSaverExample&#39;, [&#39;ngFileSaver&#39;])
+  .controller(&#39;ExampleCtrl&#39;, [FileSaver&#39;, ExampleCtrl]);
+</code></pre><p><strong>HTML</strong></p>
+<pre><code>&lt;div class=&quot;wrapper&quot; ng-controller=&quot;ExampleCtrl as vm&quot;&gt;
+  &lt;textarea
+    ng-model=&quot;vm.val.text&quot;
+    ng-model-options=&quot;{ getterSetter: true }&quot;
+    name=&quot;textarea&quot; rows=&quot;5&quot; cols=&quot;20&quot;&gt;
+      Hey ho let&#39;s go!
+  &lt;/textarea&gt;
+  &lt;a href=&quot;&quot; class=&quot;btn btn-dark btn-small&quot; ng-click=&quot;vm.download(vm.val.text)&quot;&gt;
+    Download
+  &lt;/a&gt;
+&lt;/div&gt;
+</code></pre><h2 id="demo">Demo</h2>
+<p><a href="http://alferov.github.io/angular-file-saver/#demo">Demo on <code>gh-pages</code></a></p>
+
+    <!-- endinject -->
 
     <h3 id="demo">Demo</h3>
     <p>Download as a text file</p>
@@ -112,8 +107,6 @@ angular
     </footer>
 
   </section>
-
-
 </body>
 
 </html>

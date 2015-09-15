@@ -15,10 +15,15 @@ var config = {
     scripts: './src/*.js'
   },
   docs: {
-    src: './docs/src',
+    root: './docs',
     index: './docs/index.html',
+    src: './docs/src',
     styles: './docs/assets/stylesheets/**/*.css',
+    markdown: './README.md',
     dest: './docs/dist'
+  },
+  dest: {
+    docs: './docs/dist'
   },
   browserSync: {
     port: '3000',
@@ -51,12 +56,19 @@ var config = {
 
 var browserifyDefaults = config.browserify.fileSaver;
 
+/**
+ * Helpers
+ */
 function handleErrors(err) {
   $.util.log(err.toString());
   this.emit('end');
 }
 
-/*
+function fileContents(filePath, file) {
+  return file.contents.toString();
+}
+
+/**
 * Get arguments for release task from CLI
 */
 function getUpdateType() {
@@ -77,7 +89,7 @@ function getPackageJsonVersion() {
   return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 }
 
-/*
+/**
 * See http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
 */
 function buildScript() {
@@ -128,7 +140,7 @@ gulp.task('styles:docs', function() {
     config.docs.styles
   ])
   .pipe($.concat('examples.css'))
-  .pipe(gulp.dest(config.docs.dest))
+  .pipe(gulp.dest(config.dest.docs))
   .pipe($.if(browserSync.active, browserSync.stream()));
 });
 
@@ -143,6 +155,16 @@ gulp.task('serve', function() {
     logFileChanges: true,
     notify: true
   });
+});
+
+gulp.task('markdown', function() {
+  var markdown = gulp.src(config.docs.markdown).pipe($.markdown());
+
+  return gulp.src(config.docs.index)
+    .pipe($.inject(markdown, {
+      transform: fileContents
+    }))
+    .pipe(gulp.dest(config.docs.root));
 });
 
 gulp.task('deploy:docs', function() {
@@ -179,7 +201,7 @@ gulp.task('dev:docs', function() {
   config.isProd = false;
   browserifyDefaults = config.browserify.docs;
 
-  sequence(['scripts', 'styles:docs'], 'watch:docs');
+  sequence('markdown', ['scripts', 'styles:docs'], 'watch:docs');
 });
 
 gulp.task('watch:docs', ['serve'], function() {
@@ -233,7 +255,7 @@ gulp.task('release:npm', ['release:bump', 'release:commit', 'release:push', 'rel
   spawn('npm', ['publish'], { stdio: 'inherit' }).on('close', done);
 });
 
-/*
+/**
 * Automate npm & bower updates.
 * $ gulp release --type major - using gulp-bump versioning
 * $ gulp release --version 1.1.1 - using explicit version number

@@ -1,5 +1,6 @@
-angular-file-saver
+Angular File Saver
 =========
+
 Angular-file-saver is an AngularJS service that leverages
 [FileSaver.js](https://github.com/eligrey/FileSaver.js/) and
 [Blob.js](https://github.com/eligrey/Blob.js/) to implement the HTML5 W3C
@@ -11,14 +12,16 @@ saveAs() FileSaver interface in browsers that do not natively support it.
 - [Blob.js](https://github.com/eligrey/Blob.js/)
 
 ## Installation
-Using bower
+Using bower:
 ```
 $ bower install angular-file-saver
 ```
-Using npm
+Using npm:
 ```
 $ npm install angular-file-saver
 ```
+
+`dist/angular-file-saver.bundle.js` contains all required dependencies and grants access to both `Blob.js` and `FileSaver.js` polyfills via `Blob` and `SaveAs` services (include `ngFileSaver` module as a dependency first).
 
 ## Basic usage
 - Include the `ngFileSaver` module to your project;
@@ -29,8 +32,9 @@ $ npm install angular-file-saver
   - `options` - a set of options for the [Blob constructor](https://developer.mozilla.org/en/docs/Web/API/Blob)(optional attribute);
 
 ## Example
+**JS**
 ```
-function ExampleCtrl($scope, FileSaver) {
+function ExampleCtrl(FileSaver) {
   var vm = this;
 
   vm.val = {
@@ -53,8 +57,22 @@ function ExampleCtrl($scope, FileSaver) {
 
 angular
   .module('fileSaverExample', ['ngFileSaver'])
-  .controller('ExampleCtrl', ['$scope', 'FileSaver', ExampleCtrl]);
+  .controller('ExampleCtrl', [FileSaver', ExampleCtrl]);
 ```
 
+**HTML**
+```
+<div class="wrapper" ng-controller="ExampleCtrl as vm">
+  <textarea
+    ng-model="vm.val.text"
+    ng-model-options="{ getterSetter: true }"
+    name="textarea" rows="5" cols="20">
+      Hey ho let's go!
+  </textarea>
+  <a href="" class="btn btn-dark btn-small" ng-click="vm.download(vm.val.text)">
+    Download
+  </a>
+</div>
+```
 ## Demo
-[Demo on the github project page](http://alferov.github.io/angular-file-saver/#demo)
+[Demo on `gh-pages`](http://alferov.github.io/angular-file-saver/#demo)
