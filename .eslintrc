@@ -11,7 +11,6 @@ extends:
 rules:
   indent: [2, 2, {SwitchCase: 1}]
   block-spacing: 2
-  brace-style: [2, "1tbs"]
   camelcase: [2, { properties: "never" }]
   callback-return: [2, ["cb", "callback", "next"]]
   comma-spacing: 2
