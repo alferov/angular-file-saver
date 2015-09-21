@@ -19,14 +19,18 @@ module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
     /**
     * saveAs - Immediately starts saving a file, returns undefined.
     *
-    * @param  {object} config Set of options such as filename and Blob options.
+    * @param  {object} options Set of options such as filename and data.
     * @return {undefined}
+    *
+    * ##### Params on the `options` object:
+    * - filename (string): Custom filename (extension is optional).
+    * - data (Blob): A Blob instance.
     */
 
-    saveAs: function(config) {
-      config = angular.extend({}, config);
-      var data = config.data;
-      var filename = config.filename;
+    saveAs: function(options) {
+      options = angular.extend({}, options);
+      var data = options.data;
+      var filename = options.filename;
 
       if (!isBlobInstance(data)) {
         FileSaverUtils.handleErrors('Data argument should be a blob instance');
