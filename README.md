@@ -11,7 +11,12 @@ saveAs() FileSaver interface in browsers that do not natively support it.
 - [FileSaver.js](https://github.com/eligrey/FileSaver.js/)
 - [Blob.js](https://github.com/eligrey/Blob.js/)
 
-## Installation
+File `dist/angular-file-saver.bundle.js` contains all required dependencies and
+grants access to both `Blob.js` and `FileSaver.js` polyfills via `Blob` and
+`SaveAs` services.
+
+## Installationand grants access to both `Blob.js` and `FileSaver.js`
+polyfills via `Blob` and `SaveAs` services
 Using bower:
 ```
 $ bower install angular-file-saver
@@ -21,20 +26,20 @@ Using npm:
 $ npm install angular-file-saver
 ```
 
-`dist/angular-file-saver.bundle.js` contains all required dependencies and grants access to both `Blob.js` and `FileSaver.js` polyfills via `Blob` and `SaveAs` services (include `ngFileSaver` module as a dependency first).
-
 ## Basic usage
 - Include the `ngFileSaver` module to your project;
-- Pass `FileSaver` service as a dependency;
-- Invoke `FileSaver.saveAs` and pass an object with the following set of options:
-  - `data` - data, represented as an array or a [Blob object](https://developer.mozilla.org/en/docs/Web/API/Blob);
+- Pass both `FileSaver` and `Blob` services as dependencies;
+- Create a [Blob object](https://developer.mozilla.org/en/docs/Web/API/Blob)
+passing an array with data as a first argument and an object with set of options
+as the second one: `new Blob(['text'], { type: 'text/plain;charset=utf-8' })`;
+- Invoke `FileSaver.saveAs` with the following arguments:
+  - `data` - a Blob object instance;
   - `filename`;
-  - `options` - a set of options for the [Blob constructor](https://developer.mozilla.org/en/docs/Web/API/Blob)(optional attribute);
 
 ## Example
 **JS**
 ```
-function ExampleCtrl(FileSaver) {
+function ExampleCtrl(FileSaver, Blob) {
   var vm = this;
 
   vm.val = {
@@ -43,12 +48,11 @@ function ExampleCtrl(FileSaver) {
 
   vm.download = function(text) {
 
+    var data = new Blob(['text'], { type: 'text/plain;charset=utf-8' });
+
     var config = {
-      data: [text],
-      filename: 'textfile.txt',
-      options: {
-        type: 'text/plain;charset=utf-8'
-      }
+      data: data,
+      filename: 'textfile.txt'
     };
 
     FileSaver.saveAs(config);
@@ -57,7 +61,7 @@ function ExampleCtrl(FileSaver) {
 
 angular
   .module('fileSaverExample', ['ngFileSaver'])
-  .controller('ExampleCtrl', [FileSaver', ExampleCtrl]);
+  .controller('ExampleCtrl', ['FileSaver', 'Blob', ExampleCtrl]);
 ```
 
 **HTML**

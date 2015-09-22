@@ -33,26 +33,31 @@ saveAs() FileSaver interface in browsers that do not natively support it.</p>
 <li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
 <li><a href="https://github.com/eligrey/Blob.js/">Blob.js</a></li>
 </ul>
-<h2 id="installation">Installation</h2>
-<p>Using bower:</p>
+<p>File <code>dist/angular-file-saver.bundle.js</code> contains all required dependencies and
+grants access to both <code>Blob.js</code> and <code>FileSaver.js</code> polyfills via <code>Blob</code> and
+<code>SaveAs</code> services.</p>
+<h2 id="installationand-grants-access-to-both-blob-js-and-filesaver-js-">Installationand grants access to both <code>Blob.js</code> and <code>FileSaver.js</code></h2>
+<p>polyfills via <code>Blob</code> and <code>SaveAs</code> services
+Using bower:</p>
 <pre><code>$ bower install angular-file-saver
 </code></pre><p>Using npm:</p>
 <pre><code>$ npm install angular-file-saver
-</code></pre><p><code>dist/angular-file-saver.bundle.js</code> contains all required dependencies and grants access to both <code>Blob.js</code> and <code>FileSaver.js</code> polyfills via <code>Blob</code> and <code>SaveAs</code> services (include <code>ngFileSaver</code> module as a dependency first).</p>
-<h2 id="basic-usage">Basic usage</h2>
+</code></pre><h2 id="basic-usage">Basic usage</h2>
 <ul>
 <li>Include the <code>ngFileSaver</code> module to your project;</li>
-<li>Pass <code>FileSaver</code> service as a dependency;</li>
-<li>Invoke <code>FileSaver.saveAs</code> and pass an object with the following set of options:<ul>
-<li><code>data</code> - data, represented as an array or a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a>;</li>
+<li>Pass both <code>FileSaver</code> and <code>Blob</code> services as dependencies;</li>
+<li>Create a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a>
+passing an array with data as a first argument and an object with set of options
+as the second one: <code>new Blob([&#39;text&#39;], { type: &#39;text/plain;charset=utf-8&#39; })</code>;</li>
+<li>Invoke <code>FileSaver.saveAs</code> with the following arguments:<ul>
+<li><code>data</code> - a Blob object instance;</li>
 <li><code>filename</code>;</li>
-<li><code>options</code> - a set of options for the <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob constructor</a>(optional attribute);</li>
 </ul>
 </li>
 </ul>
 <h2 id="example">Example</h2>
 <p><strong>JS</strong></p>
-<pre><code>function ExampleCtrl(FileSaver) {
+<pre><code>function ExampleCtrl(FileSaver, Blob) {
   var vm = this;
 
   vm.val = {
@@ -61,12 +66,11 @@ saveAs() FileSaver interface in browsers that do not natively support it.</p>
 
   vm.download = function(text) {
 
+    var data = new Blob([&#39;text&#39;], { type: &#39;text/plain;charset=utf-8&#39; });
+
     var config = {
-      data: [text],
-      filename: &#39;textfile.txt&#39;,
-      options: {
-        type: &#39;text/plain;charset=utf-8&#39;
-      }
+      data: data,
+      filename: &#39;textfile.txt&#39;
     };
 
     FileSaver.saveAs(config);
@@ -75,7 +79,7 @@ saveAs() FileSaver interface in browsers that do not natively support it.</p>
 
 angular
   .module(&#39;fileSaverExample&#39;, [&#39;ngFileSaver&#39;])
-  .controller(&#39;ExampleCtrl&#39;, [FileSaver&#39;, ExampleCtrl]);
+  .controller(&#39;ExampleCtrl&#39;, [&#39;FileSaver&#39;, &#39;Blob&#39;, ExampleCtrl]);
 </code></pre><p><strong>HTML</strong></p>
 <pre><code>&lt;div class=&quot;wrapper&quot; ng-controller=&quot;ExampleCtrl as vm&quot;&gt;
   &lt;textarea
