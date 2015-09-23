@@ -1,4 +1,5 @@
-'use strict'
+'use strict';
+
 var angular = require('angular');
 require('../../../src/angular-file-saver-bundle.module');
 
@@ -11,12 +12,11 @@ function DownloadText(FileSaver) {
 
   vm.download = function(text) {
 
+    var data = new Blob([text], { type: 'text/plain;charset=utf-8' });
+
     var config = {
-      data: [text],
-      filename: 'textfile.txt',
-      options: {
-        type: 'text/plain;charset=utf-8'
-      }
+      data: data,
+      filename: 'textfile.txt'
     };
 
     FileSaver.saveAs(config);
