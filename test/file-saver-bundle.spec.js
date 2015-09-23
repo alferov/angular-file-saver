@@ -13,10 +13,6 @@ describe('file-saver', function() {
     });
   });
 
-  it('should exist', function() {
-    expect(SaveAs).toBeDefined();
-  });
-
   it('should be a function', function() {
     expect(SaveAs).toEqual(jasmine.any(Function));
   });

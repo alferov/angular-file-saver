@@ -13,10 +13,6 @@ describe('blob', function() {
     });
   });
 
-  it('should exist', function() {
-    expect(Blob).toBeDefined();
-  });
-
   it('should create valid blob instances', function() {
     var text = ['Hello'];
     oMyBlob = new Blob(text, { type: 'text/html' });
