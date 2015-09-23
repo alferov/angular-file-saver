@@ -27,7 +27,7 @@ $ npm install angular-file-saver
 ```
 
 ## Basic usage
-- Include the `ngFileSaver` module to your project;
+- Include the `ngFileSaver` module into your project;
 - Pass both `FileSaver` and `Blob` services as dependencies;
 - Create a [Blob object](https://developer.mozilla.org/en/docs/Web/API/Blob)
 passing an array with data as a first argument and an object with set of options

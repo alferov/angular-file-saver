@@ -19,7 +19,7 @@ var config = {
     index: './docs/index.html',
     src: './docs/src',
     styles: './docs/assets/stylesheets/**/*.css',
-    markdown: './README.md',
+    markdown: './readme.md',
     dest: './docs/dist'
   },
   dest: {
