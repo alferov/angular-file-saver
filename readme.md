@@ -15,8 +15,7 @@ File `dist/angular-file-saver.bundle.js` contains all required dependencies and
 grants access to both `Blob.js` and `FileSaver.js` polyfills via `Blob` and
 `SaveAs` services.
 
-## Installationand grants access to both `Blob.js` and `FileSaver.js`
-polyfills via `Blob` and `SaveAs` services
+## Installation
 Using bower:
 ```
 $ bower install angular-file-saver
