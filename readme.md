@@ -4,7 +4,7 @@ Angular File Saver
 Angular-file-saver is an AngularJS service that leverages
 [FileSaver.js](https://github.com/eligrey/FileSaver.js/) and
 [Blob.js](https://github.com/eligrey/Blob.js/) to implement the HTML5 W3C
-saveAs() FileSaver interface in browsers that do not natively support it.
+saveAs() interface in browsers that do not natively support it.
 
 ## Dependencies
 - [AngularJS](https://github.com/angular/angular.js)
