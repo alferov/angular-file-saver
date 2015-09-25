@@ -8,7 +8,12 @@ module.exports = function(config) {
       'src/**/*.js': ['browserify']
     },
     browsers: ['Chrome'],
-    reporters: ['progress'],
+    reporters: ['nyan'],
+    nyanReporter: {
+      suppressErrorReport: true,
+      suppressErrorHighlighting: true,
+      numberOfRainbowLines: 4
+    },
     autoWatch: false,
     browserify: {
       debug: true,
