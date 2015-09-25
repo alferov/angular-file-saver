@@ -60,8 +60,11 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.3.1"
   },
+  "engines": {
+    "node" : ">=0.12"
+  },
   "scripts": {
     "precommit": "gulp build",
-    "test": "./node_modules/.bin/karma start test/file-saver-bundle.spec.js --single-run --browsers Firefox"
+    "test": "./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers Firefox"
   }
 }
