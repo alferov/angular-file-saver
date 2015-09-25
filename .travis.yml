@@ -3,8 +3,5 @@ node_js:
   - "0.10"
   - "0.12"
   - "stable"
-before_script:
-  - npm install -g gulp
-script: gulp unit
 git:
   depth: 10
