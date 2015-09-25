@@ -7,7 +7,7 @@ module.exports = function(config) {
     preprocessors: {
       'src/**/*.js': ['browserify']
     },
-    browsers: ['Chrome'],
+    browsers: ['Chrome', 'Firefox'],
     reporters: ['nyan'],
     nyanReporter: {
       suppressErrorReport: true,

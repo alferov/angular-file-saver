@@ -52,6 +52,7 @@
     "karma": "^0.13.9",
     "karma-browserify": "^4.3.0",
     "karma-chrome-launcher": "^0.2.0",
+    "karma-firefox-launcher": "^0.1.6",
     "karma-jasmine": "^0.3.6",
     "karma-nyan-reporter": "^0.2.2",
     "run-sequence": "^1.1.2",
@@ -61,6 +62,6 @@
   },
   "scripts": {
     "precommit": "gulp build",
-    "test": "./node_modules/.bin/karma start --single-run --browsers Chrome"
+    "test": "./node_modules/.bin/karma start test/file-saver-bundle.spec.js --single-run --browsers Firefox"
   }
 }
