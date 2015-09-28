@@ -1,4 +1,4 @@
-Angular File Saver
+Angular File Saver [![Build Status](https://travis-ci.org/alferov/angular-file-saver.svg)](https://travis-ci.org/alferov/angular-file-saver)
 =========
 
 Angular-file-saver is an AngularJS service that leverages
