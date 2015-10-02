@@ -37,7 +37,7 @@ as the second one: `new Blob(['text'], { type: 'text/plain;charset=utf-8' })`;
 
 ## Example
 **JS**
-```
+```js
 function ExampleCtrl(FileSaver, Blob) {
   var vm = this;
 
@@ -64,7 +64,7 @@ angular
 ```
 
 **HTML**
-```
+```html
 <div class="wrapper" ng-controller="ExampleCtrl as vm">
   <textarea
     ng-model="vm.val.text"
