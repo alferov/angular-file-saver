@@ -28,6 +28,7 @@
     "FileSaver.js": "https://github.com/alferov/FileSaver.js",
     "angular": "^1.4.5",
     "angular-mocks": "^1.4.5",
+    "babel-core": "^5.8.25",
     "browser-filesaver": "^1.0.0",
     "browser-sync": "^2.8.2",
     "browserify": "^11.0.1",

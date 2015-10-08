@@ -1,16 +1,17 @@
-'use strict';
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-var browserify = require('browserify');
-var watchify = require('watchify');
-var buffer = require('vinyl-buffer');
-var source = require('vinyl-source-stream');
-var sequence = require('run-sequence');
-var browserSync = require('browser-sync');
-var fs = require('fs');
-var spawn = require('child_process').spawn;
+import gulp from 'gulp';
+import gulpLoadPlugins from 'gulp-load-plugins';
+import browserify from 'browserify';
+import watchify from 'watchify';
+import buffer from 'vinyl-buffer';
+import source from 'vinyl-source-stream';
+import sequence from 'run-sequence';
+import browserSync from 'browser-sync';
+import fs from 'fs';
+import {spawn as spawn} from 'child_process';
 
-var config = {
+const $ = gulpLoadPlugins();
+
+const config = {
   fileSaver: {
     scripts: './src/*.js'
   },
@@ -54,15 +55,11 @@ var config = {
   isProd: false
 };
 
-var browserifyDefaults = config.browserify.fileSaver;
+let browserifyDefaults = config.browserify.fileSaver;
 
 /**
  * Helpers
  */
-function handleErrors(err) {
-  $.util.log(err.toString());
-  this.emit('end');
-}
 
 function fileContents(filePath, file) {
   return file.contents.toString();
@@ -72,17 +69,13 @@ function fileContents(filePath, file) {
 * Get arguments for release task from CLI
 */
 function getUpdateType() {
-  var env = $.util.env;
-
-  if (env.type) {
-    return { type: env.type };
-  }
+  const env = $.util.env;
 
   if (env.version) {
     return { version: env.version };
   }
 
-  return { type: 'patch' };
+  return { type: env.type || 'patch'};
 }
 
 function getPackageJsonVersion() {
@@ -94,7 +87,7 @@ function getPackageJsonVersion() {
 */
 function buildScript() {
 
-  var bundler = browserify({
+  let bundler = browserify({
     entries: browserifyDefaults.entryPoint,
     debug: false,
     cache: {},
@@ -103,9 +96,12 @@ function buildScript() {
   });
 
   function rebundle() {
-    var stream = bundler.bundle();
+    const stream = bundler.bundle();
 
-    return stream.on('error', handleErrors)
+    return stream.on('error', err => {
+        $.util.log(err.toString());
+        this.emit('end');
+      })
       .pipe(source(browserifyDefaults.bundleName))
       .pipe(buffer())
       .pipe(gulp.dest(browserifyDefaults.dest))
@@ -122,7 +118,7 @@ function buildScript() {
   // Watch files for changes and only rebuilds what it needs to
   if (!config.isProd) {
     bundler = watchify(bundler);
-    bundler.on('update', function() {
+    bundler.on('update', () => {
       rebundle();
     });
   }
@@ -130,11 +126,11 @@ function buildScript() {
   return rebundle();
 }
 
-gulp.task('scripts', function() {
+gulp.task('scripts', () => {
   return buildScript();
 });
 
-gulp.task('styles:docs', function() {
+gulp.task('styles:docs', () => {
 
   return gulp.src([
     config.docs.styles
@@ -144,7 +140,7 @@ gulp.task('styles:docs', function() {
   .pipe($.if(browserSync.active, browserSync.stream()));
 });
 
-gulp.task('serve', function() {
+gulp.task('serve', () => {
 
   browserSync({
     port: config.browserSync.port,
@@ -157,7 +153,7 @@ gulp.task('serve', function() {
   });
 });
 
-gulp.task('markdown', function() {
+gulp.task('markdown', () => {
   var markdown = gulp.src(config.docs.markdown).pipe($.markdown());
 
   return gulp.src(config.docs.index)
@@ -167,70 +163,70 @@ gulp.task('markdown', function() {
     .pipe(gulp.dest(config.docs.root));
 });
 
-gulp.task('deploy:docs', function() {
+gulp.task('deploy:docs', () => {
   return gulp.src('./docs/**/*')
     .pipe($.ghPages());
 });
 
-gulp.task('build', function(cb) {
+gulp.task('build', cb => {
   sequence('build:src', 'build:docs', 'build:bundle', cb);
 });
 
-gulp.task('build:src', function(cb) {
+gulp.task('build:src', cb => {
   config.isProd = true;
   browserifyDefaults = config.browserify.fileSaver;
 
   sequence('scripts', cb);
 });
 
-gulp.task('build:bundle', function(cb) {
+gulp.task('build:bundle', cb => {
   config.isProd = true;
   browserifyDefaults = config.browserify.fileSaverBundle;
 
   sequence('scripts', cb);
 });
 
-gulp.task('build:docs', function(cb) {
+gulp.task('build:docs', cb => {
   config.isProd = true;
   browserifyDefaults = config.browserify.docs;
 
   sequence(['scripts', 'styles:docs'], cb);
 });
 
-gulp.task('dev:docs', function() {
+gulp.task('dev:docs', () => {
   config.isProd = false;
   browserifyDefaults = config.browserify.docs;
 
   sequence('markdown', ['scripts', 'styles:docs'], 'watch:docs');
 });
 
-gulp.task('watch:docs', ['serve'], function() {
+gulp.task('watch:docs', ['serve'], () => {
   gulp.watch(config.docs.styles, ['styles:docs']);
 });
 
-gulp.task('release:bump', function() {
+gulp.task('release:bump', () => {
 
   return gulp.src('./*.json')
     .pipe($.bump(getUpdateType()))
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('release:commit', ['release:bump'], function(cb) {
-  var version = getPackageJsonVersion();
+gulp.task('release:commit', ['release:bump'], cb => {
+  const version = getPackageJsonVersion();
 
   return gulp.src('.')
     .pipe($.git.add())
     .pipe($.git.commit(':octocat: Bump to ' + version, cb));
 });
 
-gulp.task('release:push', ['release:bump', 'release:commit'], function(cb) {
+gulp.task('release:push', ['release:bump', 'release:commit'], cb => {
   return $.git.push('origin', 'master', cb);
 });
 
-gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], function(cb) {
-  var version = getPackageJsonVersion();
+gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], cb => {
+  const version = getPackageJsonVersion();
 
-  return $.git.tag(version, 'Tag: ' + version, function(err) {
+  return $.git.tag(version, 'Tag: ' + version, err => {
     if (err) {
       return cb(err);
     }
@@ -238,7 +234,7 @@ gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], fun
   });
 });
 
-gulp.task('unit', function() {
+gulp.task('unit', () => {
   // Nonsensical source to fall back to files listed in karma.conf.js.
   // See https://github.com/lazd/gulp-karma/issues/9
   return gulp.src('./foobar')
@@ -251,8 +247,8 @@ gulp.task('unit', function() {
     });
 });
 
-gulp.task('release:npm', ['release:bump', 'release:commit', 'release:push', 'release:tag'], function(done) {
-  spawn('npm', ['publish'], { stdio: 'inherit' }).on('close', done);
+gulp.task('release:npm', ['release:bump', 'release:commit', 'release:push', 'release:tag'], cb => {
+  spawn('npm', ['publish'], { stdio: 'inherit' }).on('close', cb);
 });
 
 /**
