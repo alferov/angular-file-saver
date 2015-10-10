@@ -6,9 +6,7 @@
     "type": "git",
     "url": "https://github.com/alferov/angular-file-saver.git"
   },
-  "main": [
-    "./dist/angular-file-saver.js"
-  ],
+  "main": "src/angular-file-saver-bundle.module.js",
   "keywords": [
     "filesaver",
     "angular",
@@ -23,9 +21,11 @@
     "url": "https://github.com/alferov/angular-file-saver/issues"
   },
   "homepage": "https://github.com/alferov/angular-file-saver",
-  "devDependencies": {
+  "dependencies": {
     "Blob.js": "https://github.com/alferov/Blob.js",
-    "FileSaver.js": "https://github.com/alferov/FileSaver.js",
+    "FileSaver.js": "https://github.com/alferov/FileSaver.js"
+  },
+  "devDependencies": {
     "angular": "^1.4.5",
     "angular-mocks": "^1.4.5",
     "babel-core": "^5.8.25",
