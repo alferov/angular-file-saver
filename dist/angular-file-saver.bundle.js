@@ -563,7 +563,10 @@ module.exports = function Blob($window) {
 'use strict';
 
 module.exports = function SaveAs() {
-  return require('FileSaver.js').saveAs;
+  var sa = require('FileSaver.js').saveAs;
+  //check for undefined for IE and modern browsers
+  sa = sa !== "undefined" && sa !== undefined ? sa : { error: "Unsupported" };
+  return sa;
 };
 
 },{"FileSaver.js":2}],7:[function(require,module,exports){
