@@ -506,6 +506,11 @@ angular.module('ngFileSaver', [])
 'use strict';
 
 module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
+  if (SaveAs === null) {
+    return {
+      saveAs: null
+    };
+  }
 
   function isBlobInstance(obj) {
     return obj instanceof Blob;
@@ -563,7 +568,7 @@ module.exports = function Blob($window) {
 'use strict';
 
 module.exports = function SaveAs() {
-  return require('FileSaver.js').saveAs;
+  return require('FileSaver.js').saveAs || null;
 };
 
 },{"FileSaver.js":2}],7:[function(require,module,exports){

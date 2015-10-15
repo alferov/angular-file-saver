@@ -1,6 +1,11 @@
 'use strict';
 
 module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
+  if (SaveAs === null) {
+    return {
+      saveAs: null
+    };
+  }
 
   function isBlobInstance(obj) {
     return obj instanceof Blob;
