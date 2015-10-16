@@ -1,15 +1,6 @@
 'use strict';
 
 module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
-  if (SaveAs === null) {
-    return {
-      saveAs: null
-    };
-  }
-
-  function isBlobInstance(obj) {
-    return obj instanceof Blob;
-  }
 
   function save(blob, filename) {
     try {
@@ -22,14 +13,16 @@ module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
   return {
 
     /**
-    * saveAs - Immediately starts saving a file, returns undefined.
+    * saveAs
+    * Immediately starts saving a file, returns undefined.
     *
-    * @param  {object} options Set of options such as filename and data.
-    * @return {undefined}
+    * @name saveAs
+    * @function
+    * @param  {Object} options Set of options such as filename and data.
+    * - `filename` (String): Custom filename (extension is optional).
+    * - `data` (Blob): A Blob instance.
     *
-    * ##### Params on the `options` object:
-    * - filename (string): Custom filename (extension is optional).
-    * - data (Blob): A Blob instance.
+    * @return {Undefined}
     */
 
     saveAs: function(options) {
@@ -37,7 +30,7 @@ module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
       var data = options.data;
       var filename = options.filename;
 
-      if (!isBlobInstance(data)) {
+      if (!FileSaverUtils.isBlobInstance(data)) {
         FileSaverUtils.handleErrors('Data argument should be a blob instance');
       }
 

@@ -506,15 +506,6 @@ angular.module('ngFileSaver', [])
 'use strict';
 
 module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
-  if (SaveAs === null) {
-    return {
-      saveAs: null
-    };
-  }
-
-  function isBlobInstance(obj) {
-    return obj instanceof Blob;
-  }
 
   function save(blob, filename) {
     try {
@@ -527,14 +518,16 @@ module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
   return {
 
     /**
-    * saveAs - Immediately starts saving a file, returns undefined.
+    * saveAs
+    * Immediately starts saving a file, returns undefined.
     *
-    * @param  {object} options Set of options such as filename and data.
-    * @return {undefined}
+    * @name saveAs
+    * @function
+    * @param  {Object} options Set of options such as filename and data.
+    * - `filename` (String): Custom filename (extension is optional).
+    * - `data` (Blob): A Blob instance.
     *
-    * ##### Params on the `options` object:
-    * - filename (string): Custom filename (extension is optional).
-    * - data (Blob): A Blob instance.
+    * @return {Undefined}
     */
 
     saveAs: function(options) {
@@ -542,7 +535,7 @@ module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
       var data = options.data;
       var filename = options.filename;
 
-      if (!isBlobInstance(data)) {
+      if (!FileSaverUtils.isBlobInstance(data)) {
         FileSaverUtils.handleErrors('Data argument should be a blob instance');
       }
 
@@ -568,7 +561,7 @@ module.exports = function Blob($window) {
 'use strict';
 
 module.exports = function SaveAs() {
-  return require('FileSaver.js').saveAs || null;
+  return require('FileSaver.js').saveAs || function() {};
 };
 
 },{"FileSaver.js":2}],7:[function(require,module,exports){
@@ -579,17 +572,14 @@ module.exports = function FileSaverUtils() {
     handleErrors: function(msg) {
       throw new Error(msg);
     },
-    isArray: function isArray(obj) {
-      return Object.prototype.toString.call(obj) === '[object Array]';
-    },
-    isObject: function(obj) {
-      return obj !== null && typeof obj === 'object';
-    },
     isString: function(obj) {
       return typeof obj === 'string' || obj instanceof String;
     },
-    isUndefined: function isUndefined(obj) {
+    isUndefined: function(obj) {
       return typeof obj === 'undefined';
+    },
+    isBlobInstance: function(obj) {
+      return obj instanceof Blob;
     }
   };
 };
