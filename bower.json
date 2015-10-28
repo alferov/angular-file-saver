@@ -1,7 +1,7 @@
 {
   "name": "angular-file-saver",
   "version": "1.0.0",
-  "main": "dist/angular-file-saver.js",
+  "main": "dist/angular-file-saver.bundle.js",
   "authors": [
     "Philipp Alferov <philipp.alferov@gmail.com>"
   ],
