@@ -3,7 +3,7 @@
 var angular = require('angular');
 require('../../../src/angular-file-saver-bundle.module');
 
-function DownloadText(FileSaver) {
+function DownloadText(FileSaver, Blob, $timeout) {
   var vm = this;
 
   vm.val = {
@@ -11,18 +11,11 @@ function DownloadText(FileSaver) {
   };
 
   vm.download = function(text) {
-
     var data = new Blob([text], { type: 'text/plain;charset=utf-8' });
-
-    var config = {
-      data: data,
-      filename: 'textfile.txt'
-    };
-
-    FileSaver.saveAs(config);
+    $timeout(FileSaver.saveAs.bind(FileSaver, data, 'text.txt'), 100);
   };
 }
 
 angular
   .module('fileSaverExample', ['ngFileSaver'])
-  .controller('DownloadText', ['FileSaver', DownloadText]);
+  .controller('DownloadText', ['FileSaver', 'Blob', '$timeout', DownloadText]);

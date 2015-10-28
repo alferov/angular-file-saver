@@ -22,11 +22,13 @@
   <section class="main-content">
 
     <!-- inject:html -->
-    <h1 id="angular-file-saver">Angular File Saver</h1>
-<p>Angular-file-saver is an AngularJS service that leverages
+    <h1 id="angular-file-saver-build-status-https-travis-ci-org-alferov-angular-file-saver-svg-https-travis-ci-org-alferov-angular-file-saver-">Angular File Saver <a href="https://travis-ci.org/alferov/angular-file-saver"><img src="https://travis-ci.org/alferov/angular-file-saver.svg" alt="Build Status"></a></h1>
+<blockquote>
+<p>Angular File Saver is an AngularJS service that leverages
 <a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a> and
 <a href="https://github.com/eligrey/Blob.js/">Blob.js</a> to implement the HTML5 W3C
-saveAs() FileSaver interface in browsers that do not natively support it.</p>
+saveAs() interface in browsers that do not natively support it.</p>
+</blockquote>
 <h2 id="dependencies">Dependencies</h2>
 <ul>
 <li><a href="https://github.com/angular/angular.js">AngularJS</a></li>
@@ -49,14 +51,15 @@ grants access to both <code>Blob.js</code> and <code>FileSaver.js</code> polyfil
 passing an array with data as a first argument and an object with set of options
 as the second one: <code>new Blob([&#39;text&#39;], { type: &#39;text/plain;charset=utf-8&#39; })</code>;</li>
 <li>Invoke <code>FileSaver.saveAs</code> with the following arguments:<ul>
-<li><code>data</code> - a Blob object instance;</li>
-<li><code>filename</code>;</li>
+<li><code>data</code> <strong>Blob</strong>: a Blob instance;</li>
+<li><code>filename</code> <strong>String</strong>: Custom filename (extension is optional);</li>
+<li><code>disableAutoBOM</code> <strong>Boolean</strong>: (optional) Disable automatically provided Unicode text encoding hints;</li>
 </ul>
 </li>
 </ul>
 <h2 id="example">Example</h2>
 <p><strong>JS</strong></p>
-<pre><code>function ExampleCtrl(FileSaver, Blob) {
+<pre><code class="lang-js">function ExampleCtrl($timeout, FileSaver, Blob) {
   var vm = this;
 
   vm.val = {
@@ -64,23 +67,17 @@ as the second one: <code>new Blob([&#39;text&#39;], { type: &#39;text/plain;char
   };
 
   vm.download = function(text) {
-
-    var data = new Blob([&#39;text&#39;], { type: &#39;text/plain;charset=utf-8&#39; });
-
-    var config = {
-      data: data,
-      filename: &#39;textfile.txt&#39;
-    };
-
-    FileSaver.saveAs(config);
+    var data = new Blob([text], { type: &#39;text/plain;charset=utf-8&#39; });
+    $timeout(FileSaver.saveAs.bind(FileSaver, data, &#39;text.txt&#39;), 100);
   };
 }
 
 angular
   .module(&#39;fileSaverExample&#39;, [&#39;ngFileSaver&#39;])
   .controller(&#39;ExampleCtrl&#39;, [&#39;FileSaver&#39;, &#39;Blob&#39;, ExampleCtrl]);
-</code></pre><p><strong>HTML</strong></p>
-<pre><code>&lt;div class=&quot;wrapper&quot; ng-controller=&quot;ExampleCtrl as vm&quot;&gt;
+</code></pre>
+<p><strong>HTML</strong></p>
+<pre><code class="lang-html">&lt;div class=&quot;wrapper&quot; ng-controller=&quot;ExampleCtrl as vm&quot;&gt;
   &lt;textarea
     ng-model=&quot;vm.val.text&quot;
     ng-model-options=&quot;{ getterSetter: true }&quot;
@@ -91,7 +88,8 @@ angular
     Download
   &lt;/a&gt;
 &lt;/div&gt;
-</code></pre><h2 id="demo">Demo</h2>
+</code></pre>
+<h2 id="demo">Demo</h2>
 <p><a href="http://alferov.github.io/angular-file-saver/#demo">Demo on <code>gh-pages</code></a></p>
 
     <!-- endinject -->
