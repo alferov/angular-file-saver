@@ -14,45 +14,30 @@ describe('angular-file-saver', function() {
 
   describe('#saveAs', function() {
 
-    it('should throw an error if `options.data` is not a blob', function() {
-      var config = {
-        data: ['text'],
-        filename: 'xfiles.txt'
-      };
-      expect(function() { FileSaver.saveAs(config); })
+    it('should throw an error if there are no arguments', function() {
+      expect(FileSaver.saveAs)
         .toThrowError(/should be a blob instance/);
     });
 
-    it('should throw an error if `options` object is empty', function() {
-      var config = {};
-      expect(function() { FileSaver.saveAs(config); })
+    it('should throw an error if `data` is not a blob', function() {
+      var data = ['text'];
+      var filename = 'xfiles.txt';
+
+      expect(FileSaver.saveAs.bind(FileSaver, data, filename))
         .toThrowError(/should be a blob instance/);
     });
 
-    it('should throw an error if `options` object is not passed', function() {
-      expect(function() { FileSaver.saveAs(); })
-        .toThrowError(/should be a blob instance/);
-    });
-
-    it('should throw an error if `options.filename` is not a string', function() {
+    it('should throw an error if `filename` is not a string', function() {
       var data = new Blob(['text'], { type: 'text/plain;charset=utf-8' });
-      var config = {
-        data: data,
-        filename: null
-      };
 
-      expect(function() { FileSaver.saveAs(config); })
+      expect(FileSaver.saveAs.bind(FileSaver, data, null))
         .toThrowError(/should be a string/);
     });
 
     it('should save a file if provided data is valid', function() {
       var data = new Blob(['text'], { type: 'text/plain;charset=utf-8' });
-      var config = {
-        data: data,
-        filename: 'xfiles.txt'
-      };
 
-      expect(function() { FileSaver.saveAs(config); }).not.toThrow();
+      expect(FileSaver.saveAs.bind(FileSaver, data, 'xfiles.txt')).not.toThrow();
     });
 
   });

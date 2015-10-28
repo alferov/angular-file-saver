@@ -1,7 +1,7 @@
 Angular File Saver [![Build Status](https://travis-ci.org/alferov/angular-file-saver.svg)](https://travis-ci.org/alferov/angular-file-saver)
 =========
 
-Angular-file-saver is an AngularJS service that leverages
+> Angular File Saver is an AngularJS service that leverages
 [FileSaver.js](https://github.com/eligrey/FileSaver.js/) and
 [Blob.js](https://github.com/eligrey/Blob.js/) to implement the HTML5 W3C
 saveAs() interface in browsers that do not natively support it.
@@ -32,13 +32,14 @@ $ npm install angular-file-saver
 passing an array with data as a first argument and an object with set of options
 as the second one: `new Blob(['text'], { type: 'text/plain;charset=utf-8' })`;
 - Invoke `FileSaver.saveAs` with the following arguments:
-  - `data` - a Blob object instance;
-  - `filename`;
+  - `data` **Blob**: a Blob instance;
+  - `filename` **String**: Custom filename (extension is optional);
+  - `disableAutoBOM` **Boolean**: (optional) Disable automatically provided Unicode text encoding hints;
 
 ## Example
 **JS**
 ```js
-function ExampleCtrl(FileSaver, Blob) {
+function ExampleCtrl($timeout, FileSaver, Blob) {
   var vm = this;
 
   vm.val = {
@@ -46,15 +47,8 @@ function ExampleCtrl(FileSaver, Blob) {
   };
 
   vm.download = function(text) {
-
-    var data = new Blob(['text'], { type: 'text/plain;charset=utf-8' });
-
-    var config = {
-      data: data,
-      filename: 'textfile.txt'
-    };
-
-    FileSaver.saveAs(config);
+    var data = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(data, 'text.txt');
   };
 }
 

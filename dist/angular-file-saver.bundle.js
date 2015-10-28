@@ -507,9 +507,9 @@ angular.module('ngFileSaver', [])
 
 module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
 
-  function save(blob, filename) {
+  function save(blob, filename, disableAutoBOM) {
     try {
-      SaveAs(blob, filename);
+      SaveAs(blob, filename, disableAutoBOM);
     } catch(err) {
       FileSaverUtils.handleErrors(err.message);
     }
@@ -523,17 +523,15 @@ module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
     *
     * @name saveAs
     * @function
-    * @param  {Object} options Set of options such as filename and data.
-    * - `filename` (String): Custom filename (extension is optional).
-    * - `data` (Blob): A Blob instance.
+    * @param {Blob} data A Blob instance
+    * @param {Object} filename Custom filename (extension is optional)
+    * @param {Boolean} disableAutoBOM Disable automatically provided Unicode
+    * text encoding hints
     *
     * @return {Undefined}
     */
 
-    saveAs: function(options) {
-      options = angular.extend({}, options);
-      var data = options.data;
-      var filename = options.filename;
+    saveAs: function(data, filename, disableAutoBOM) {
 
       if (!FileSaverUtils.isBlobInstance(data)) {
         FileSaverUtils.handleErrors('Data argument should be a blob instance');
@@ -543,7 +541,7 @@ module.exports = function FileSaver(Blob, SaveAs, FileSaverUtils) {
         FileSaverUtils.handleErrors('Filename argument should be a string');
       }
 
-      return save(data, filename);
+      return save(data, filename, disableAutoBOM);
     }
   };
 };
