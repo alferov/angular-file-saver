@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/alferov/angular-file-saver",
   "dependencies": {
-    "Blob.js": "https://github.com/alferov/Blob.js",
-    "FileSaver.js": "https://github.com/alferov/FileSaver.js"
+    "Blob.js": "git+https://github.com/alferov/Blob.js",
+    "FileSaver.js": "git+https://github.com/alferov/FileSaver.js"
   },
   "devDependencies": {
     "angular": "^1.4.5",
