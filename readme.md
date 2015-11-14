@@ -57,7 +57,7 @@ An Angular factory that returns a Blob instance.
 
 ### `SaveAs(data, filename[, disableAutoBOM])`
 An Angular factory that returns a FileSaver.js `saveAs` polyfill.
-[FileSaver.js documentationruvy](https://github.com/eligrey/FileSaver.js/#syntax)
+[FileSaver.js documentation](https://github.com/eligrey/FileSaver.js/#syntax)
 
 ## Example
 **JS**
