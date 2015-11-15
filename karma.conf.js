@@ -2,13 +2,12 @@
 
 module.exports = function(config) {
   config.set({
-    basePath: '../',
+    basePath: './',
     frameworks: ['jasmine', 'browserify'],
     preprocessors: {
       'src/**/*.js': ['browserify']
     },
     browsers: ['Chrome', 'Firefox'],
-    reporters: ['nyan'],
     nyanReporter: {
       suppressErrorReport: true,
       suppressErrorHighlighting: true,
@@ -17,8 +16,7 @@ module.exports = function(config) {
     autoWatch: false,
     browserify: {
       debug: true,
-      transform: [
-      ]
+      transform: []
     },
     proxies: {
       '/': 'http://localhost:9876/'
@@ -26,8 +24,8 @@ module.exports = function(config) {
     urlRoot: '/__karma__/',
     singleRun: true,
     files: [
-      './node_modules/angular/angular.js',
-      './node_modules/angular-mocks/angular-mocks.js',
+      'node_modules/angular/angular.js',
+      'node_modules/angular-mocks/angular-mocks.js',
       'src/angular-file-saver-bundle.module.js',
       // Test files
       'test/**/*.spec.js'

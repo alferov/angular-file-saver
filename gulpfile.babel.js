@@ -8,6 +8,7 @@ import sequence from 'run-sequence';
 import browserSync from 'browser-sync';
 import fs from 'fs';
 import {spawn as spawn} from 'child_process';
+import {Server} from 'karma';
 
 const $ = gulpLoadPlugins();
 
@@ -234,17 +235,11 @@ gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], cb 
   });
 });
 
-gulp.task('unit', () => {
-  // Nonsensical source to fall back to files listed in karma.conf.js.
-  // See https://github.com/lazd/gulp-karma/issues/9
-  return gulp.src('./foobar')
-    .pipe($.karma({
-      configFile: config.tests.karma,
-      action: 'run'
-    }))
-    .on('error', function(err) {
-      throw err;
-    });
+gulp.task('unit', (done) => {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
 
 gulp.task('release:npm', ['release:bump', 'release:commit', 'release:push', 'release:tag'], cb => {
