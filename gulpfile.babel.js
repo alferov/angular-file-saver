@@ -50,7 +50,7 @@ const config = {
     }
   },
   tests: {
-    karma: 'test/karma.conf.js'
+    karma: __dirname + '/karma.conf.js'
   },
   // A flag attribute to switch modes.
   isProd: false
@@ -237,7 +237,7 @@ gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], cb 
 
 gulp.task('unit', (done) => {
   new Server({
-    configFile: __dirname + '/karma.conf.js',
+    configFile: config.tests.karma,
     singleRun: true
   }, done).start();
 });
