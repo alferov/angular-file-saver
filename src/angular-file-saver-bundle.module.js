@@ -1,5 +1,5 @@
 'use strict';
-
+module.exports = 'ngFileSaver';
 /*
 *
 * A AngularJS module that implements the HTML5 W3C saveAs() in browsers that
