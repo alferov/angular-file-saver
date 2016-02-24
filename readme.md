@@ -29,35 +29,34 @@ $ npm install angular-file-saver
 ```
 
 ## Basic usage
-- Include the `ngFileSaver` module into your project;
+- Include `ngFileSaver` module into your project;
 - Pass both `FileSaver` and `Blob` services as dependencies;
-- Create a [Blob object](https://developer.mozilla.org/en/docs/Web/API/Blob)
-passing an array with data as a first argument and an object with set of options
+- Create a [Blob object](https://developer.mozilla.org/en/docs/Web/API/Blob) by
+passing an array with data as the first argument and an object with set of options
 as the second one: `new Blob(['text'], { type: 'text/plain;charset=utf-8' })`;
 - Invoke `FileSaver.saveAs` with the following arguments:
   - `data` **Blob**: a Blob instance;
-  - `filename` **String**: Custom filename (extension is optional);
+  - `filename` **String**: a custom filename (an extension is optional);
   - `disableAutoBOM` **Boolean**: (optional) Disable automatically provided Unicode text encoding hints;
 
 [Demo](http://alferov.github.io/angular-file-saver/#demo)
 
 ## API
 ### `FileSaver`
+A core Angular factory.
 #### `#saveAs(data, filename[, disableAutoBOM])`
 Immediately starts saving a file
 
 #### Parameters
 - **Blob** `data`: a Blob instance;
-- **String** `filename`: Custom filename (extension is optional);
+- **String** `filename`: a custom filename (an extension is optional);
 - **Boolean** `disableAutoBOM` : (optional) Disable automatically provided Unicode text encoding hints;
 
 ### `Blob(blobParts[, options]))`
-An Angular factory that returns a Blob instance.
-[Blob API on MDN](https://developer.mozilla.org/en/docs/Web/API/Blob)
+An Angular factory that returns a [Blob instance](https://developer.mozilla.org/en/docs/Web/API/Blob).
 
 ### `SaveAs(data, filename[, disableAutoBOM])`
-An Angular factory that returns a FileSaver.js `saveAs` polyfill.
-[FileSaver.js documentation](https://github.com/eligrey/FileSaver.js/#syntax)
+An Angular factory that returns a [FileSaver.js polyfill](https://github.com/eligrey/FileSaver.js/#syntax).
 
 ## Example
 **JS**

@@ -50,14 +50,14 @@ $ npm install angular-file-saver
 </code></pre>
 <h2 id="basic-usage">Basic usage</h2>
 <ul>
-<li>Include the <code>ngFileSaver</code> module into your project;</li>
+<li>Include <code>ngFileSaver</code> module into your project;</li>
 <li>Pass both <code>FileSaver</code> and <code>Blob</code> services as dependencies;</li>
-<li>Create a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a>
-passing an array with data as a first argument and an object with set of options
+<li>Create a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob object</a> by
+passing an array with data as the first argument and an object with set of options
 as the second one: <code>new Blob([&#39;text&#39;], { type: &#39;text/plain;charset=utf-8&#39; })</code>;</li>
 <li>Invoke <code>FileSaver.saveAs</code> with the following arguments:<ul>
 <li><code>data</code> <strong>Blob</strong>: a Blob instance;</li>
-<li><code>filename</code> <strong>String</strong>: Custom filename (extension is optional);</li>
+<li><code>filename</code> <strong>String</strong>: a custom filename (an extension is optional);</li>
 <li><code>disableAutoBOM</code> <strong>Boolean</strong>: (optional) Disable automatically provided Unicode text encoding hints;</li>
 </ul>
 </li>
@@ -65,20 +65,19 @@ as the second one: <code>new Blob([&#39;text&#39;], { type: &#39;text/plain;char
 <p><a href="http://alferov.github.io/angular-file-saver/#demo">Demo</a></p>
 <h2 id="api">API</h2>
 <h3 id="-filesaver-"><code>FileSaver</code></h3>
+<p>A core Angular factory.</p>
 <h4 id="-saveas-data-filename-disableautobom-"><code>#saveAs(data, filename[, disableAutoBOM])</code></h4>
 <p>Immediately starts saving a file</p>
 <h4 id="parameters">Parameters</h4>
 <ul>
 <li><strong>Blob</strong> <code>data</code>: a Blob instance;</li>
-<li><strong>String</strong> <code>filename</code>: Custom filename (extension is optional);</li>
+<li><strong>String</strong> <code>filename</code>: a custom filename (an extension is optional);</li>
 <li><strong>Boolean</strong> <code>disableAutoBOM</code> : (optional) Disable automatically provided Unicode text encoding hints;</li>
 </ul>
 <h3 id="-blob-blobparts-options-"><code>Blob(blobParts[, options]))</code></h3>
-<p>An Angular factory that returns a Blob instance.
-<a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob API on MDN</a></p>
+<p>An Angular factory that returns a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob instance</a>.</p>
 <h3 id="-saveas-data-filename-disableautobom-"><code>SaveAs(data, filename[, disableAutoBOM])</code></h3>
-<p>An Angular factory that returns a FileSaver.js <code>saveAs</code> polyfill.
-<a href="https://github.com/eligrey/FileSaver.js/#syntax">FileSaver.js documentationruvy</a></p>
+<p>An Angular factory that returns a <a href="https://github.com/eligrey/FileSaver.js/#syntax">FileSaver.js polyfill</a>.</p>
 <h2 id="example">Example</h2>
 <p><strong>JS</strong></p>
 <pre><code class="lang-js">function ExampleCtrl(FileSaver, Blob) {
