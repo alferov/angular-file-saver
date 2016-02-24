@@ -32,7 +32,7 @@ const config = {
     server: './docs'
   },
   // Predefined browserify configs to keep tasks DRY
-  browserify: {
+  scripts: {
     fileSaver: {
       entryPoint: './src/angular-file-saver.module.js',
       bundleName: 'angular-file-saver.js',
@@ -56,20 +56,20 @@ const config = {
   isProd: false
 };
 
-let browserifyDefaults = config.browserify.fileSaver;
+let scriptDefaults = config.scripts.fileSaver;
 
 /**
  * Helpers
  */
 
-function fileContents(filePath, file) {
+const fileContents = (filePath, file) => {
   return file.contents.toString();
-}
+};
 
 /**
 * Get arguments for release task from CLI
 */
-function getUpdateType() {
+const getUpdateType = () => {
   const env = $.util.env;
 
   if (env.version) {
@@ -77,11 +77,16 @@ function getUpdateType() {
   }
 
   return { type: env.type || 'patch'};
-}
+};
 
-function getPackageJsonVersion() {
+const getPackageJsonVersion = () => {
   return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
-}
+};
+
+const onError = err => {
+  $.util.log(err.toString());
+  this.emit('end');
+};
 
 /**
 * See http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
@@ -89,7 +94,7 @@ function getPackageJsonVersion() {
 function buildScript() {
 
   let bundler = browserify({
-    entries: browserifyDefaults.entryPoint,
+    entries: scriptDefaults.entryPoint,
     debug: false,
     cache: {},
     packageCache: {},
@@ -99,20 +104,17 @@ function buildScript() {
   function rebundle() {
     const stream = bundler.bundle();
 
-    return stream.on('error', err => {
-        $.util.log(err.toString());
-        this.emit('end');
-      })
-      .pipe(source(browserifyDefaults.bundleName))
+    return stream.on('error', onError)
+      .pipe(source(scriptDefaults.bundleName))
       .pipe(buffer())
-      .pipe(gulp.dest(browserifyDefaults.dest))
+      .pipe(gulp.dest(scriptDefaults.dest))
       .pipe($.if(config.isProd, $.uglify({
         compress: { drop_console: true }
       })))
       .pipe($.if(config.isProd, $.rename({
         suffix: '.min'
       })))
-      .pipe($.if(config.isProd, gulp.dest(browserifyDefaults.dest)))
+      .pipe($.if(config.isProd, gulp.dest(scriptDefaults.dest)))
       .pipe($.if(browserSync.active, browserSync.stream()));
   }
 
@@ -175,28 +177,28 @@ gulp.task('build', cb => {
 
 gulp.task('build:src', cb => {
   config.isProd = true;
-  browserifyDefaults = config.browserify.fileSaver;
+  scriptDefaults = config.scripts.fileSaver;
 
   sequence('scripts', cb);
 });
 
 gulp.task('build:bundle', cb => {
   config.isProd = true;
-  browserifyDefaults = config.browserify.fileSaverBundle;
+  scriptDefaults = config.scripts.fileSaverBundle;
 
   sequence('scripts', cb);
 });
 
 gulp.task('build:docs', cb => {
   config.isProd = true;
-  browserifyDefaults = config.browserify.docs;
+  scriptDefaults = config.scripts.docs;
 
-  sequence(['scripts', 'styles:docs'], cb);
+  sequence('markdown', ['scripts', 'styles:docs'], cb);
 });
 
 gulp.task('dev:docs', () => {
   config.isProd = false;
-  browserifyDefaults = config.browserify.docs;
+  scriptDefaults = config.scripts.docs;
 
   sequence('markdown', ['scripts', 'styles:docs'], 'watch:docs');
 });
