@@ -213,11 +213,25 @@ gulp.task('release:tag', ['release:bump', 'release:commit', 'release:push'], cb 
   });
 });
 
-gulp.task('unit', (done) => {
-  new Server({
-    configFile: config.tests.karma,
-    singleRun: true
-  }, done).start();
+gulp.task('unit', cb => {
+  const server = new Server({
+    configFile: config.tests.karma
+  });
+
+  server.on('browser_error', function(browser, err) {
+    $.util.log('Karma Run Failed: ' + err.message);
+    throw err;
+  });
+
+  server.on('run_complete', function(browsers, results) {
+    if (results.failed) {
+      throw new Error('Karma: Tests Failed');
+    }
+    $.util.log('Karma Run Complete: No Failures');
+    cb();
+  });
+
+  server.start();
 });
 
 gulp.task('release:npm', ['release:bump', 'release:commit', 'release:push', 'release:tag'], cb => {
