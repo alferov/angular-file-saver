@@ -30,6 +30,8 @@ const config = {
   },
   // Predefined browserify configs to keep tasks DRY
   scripts: {
+    libraryTarget: 'umd',
+    library: 'ngFileSaver',
     fileSaver: {
       entryPoint: './src/angular-file-saver.module.js',
       bundleName: 'angular-file-saver.js',
@@ -91,6 +93,8 @@ const buildScript = function() {
     .pipe(webpack({
       watch: config.isProd ? false : true,
       output: {
+        libraryTarget: config.scripts.libraryTarget,
+        library: config.scripts.library,
         filename: bundlerOptions.bundleName
       }
     }))

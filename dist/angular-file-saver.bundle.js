@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["ngFileSaver"] = factory();
+	else
+		root["ngFileSaver"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
@@ -524,9 +534,9 @@
 				}
 				if (can_use_save_link) {
 					object_url = get_URL().createObjectURL(blob);
+					save_link.href = object_url;
+					save_link.download = name;
 					setTimeout(function() {
-						save_link.href = object_url;
-						save_link.download = name;
 						click(save_link);
 						dispatch_all();
 						revoke(object_url);
@@ -669,4 +679,6 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }
-/******/ ]);
+/******/ ])
+});
+;
