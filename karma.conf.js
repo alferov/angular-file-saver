@@ -3,9 +3,9 @@
 module.exports = function(config) {
   config.set({
     basePath: './',
-    frameworks: ['jasmine', 'browserify'],
+    frameworks: ['jasmine'],
     preprocessors: {
-      'src/**/*.js': ['browserify']
+      'src/**/*.js': ['webpack']
     },
     browsers: ['Chrome', 'Firefox'],
     nyanReporter: {
@@ -14,10 +14,6 @@ module.exports = function(config) {
       numberOfRainbowLines: 4
     },
     autoWatch: false,
-    browserify: {
-      debug: true,
-      transform: []
-    },
     proxies: {
       '/': 'http://localhost:9876/'
     },
