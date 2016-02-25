@@ -30513,7 +30513,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	module.exports = 'ngFileSaver';
 	/*
 	*
 	* A AngularJS module that implements the HTML5 W3C saveAs() in browsers that
@@ -30523,6 +30522,8 @@
 	* License: MIT
 	*
 	*/
+
+	module.exports = 'ngFileSaver';
 
 	angular.module('ngFileSaver', [])
 	  .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', __webpack_require__(4)])

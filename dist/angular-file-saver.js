@@ -56,6 +56,8 @@
 	*
 	*/
 
+	module.exports = 'ngFileSaver';
+
 	angular.module('ngFileSaver', [])
 	  .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', __webpack_require__(1)])
 	  .factory('FileSaverUtils', [__webpack_require__(2)])

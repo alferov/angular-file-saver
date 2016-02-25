@@ -10,6 +10,8 @@
 *
 */
 
+module.exports = 'ngFileSaver';
+
 angular.module('ngFileSaver', [])
   .factory('FileSaver', ['Blob', 'SaveAs', 'FileSaverUtils', require('./angular-file-saver.service')])
   .factory('FileSaverUtils', [require('./utils/utils.service.js')])
