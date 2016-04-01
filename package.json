@@ -21,8 +21,7 @@
   },
   "homepage": "https://github.com/CarlosCondor/angular-file-saver",
   "dependencies": {
-    "Blob.js": "git+https://github.com/alferov/Blob.js",
-    "FileSaver.js": "git+https://github.com/alferov/FileSaver.js"
+    
   },
   "devDependencies": {
     "angular": "^1.4.5",
