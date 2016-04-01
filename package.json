@@ -1,6 +1,6 @@
 {
   "name": "angular-file-saver",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An AngularJS service that implements the HTML5 W3C saveAs() in browsers that do not natively support it",
   "repository": {
     "type": "git",
