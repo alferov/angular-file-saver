@@ -1,5 +1,5 @@
 {
-  "name": "angular-file-saver",
+  "name": "own-angular-file-saver",
   "version": "1.1.1",
   "main": "dist/angular-file-saver.bundle.js",
   "authors": [
@@ -23,7 +23,6 @@
     "tests"
   ],
   "dependencies": {
-    "blob-polyfill": "~1.0.20150320",
-    "file-saver.js": "~1.20150507.2"
+    "blob-polyfill": "~1.0.20150320"
   }
 }
