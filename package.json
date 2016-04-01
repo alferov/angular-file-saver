@@ -4,7 +4,7 @@
   "description": "An AngularJS service that implements the HTML5 W3C saveAs() in browsers that do not natively support it",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alferov/angular-file-saver.git"
+    "url": "https://github.com/CarlosCondor/angular-file-saver.git"
   },
   "main": "dist/angular-file-saver.bundle.js",
   "keywords": [
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/alferov/angular-file-saver/issues"
   },
-  "homepage": "https://github.com/alferov/angular-file-saver",
+  "homepage": "https://github.com/CarlosCondor/angular-file-saver",
   "dependencies": {
     "Blob.js": "git+https://github.com/alferov/Blob.js",
     "FileSaver.js": "git+https://github.com/alferov/FileSaver.js"
