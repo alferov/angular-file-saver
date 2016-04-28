@@ -76,7 +76,7 @@ function ExampleCtrl(FileSaver, Blob) {
 
 angular
   .module('fileSaverExample', ['ngFileSaver'])
-  .controller('ExampleCtrl', ['FileSaver', 'Blob', ExampleCtrl]);
+  .controller('ExampleCtrl', ['FileSaver', ExampleCtrl]);
 ```
 
 **HTML**
