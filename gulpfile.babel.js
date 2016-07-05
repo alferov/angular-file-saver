@@ -94,7 +94,6 @@ const buildScript = function() {
       watch: config.isProd ? false : true,
       output: {
         libraryTarget: config.scripts.libraryTarget,
-        library: config.scripts.library,
         filename: bundlerOptions.bundleName
       }
     }))
@@ -176,11 +175,11 @@ gulp.task('build:docs', cb => {
   sequence('markdown', ['scripts', 'styles:docs'], cb);
 });
 
-gulp.task('dev:docs', () => {
+gulp.task('dev:docs', cb => {
   config.isProd = false;
   bundlerOptions = config.scripts.docs;
 
-  sequence('markdown', ['scripts', 'styles:docs'], 'watch:docs');
+  sequence('markdown', 'watch:docs', ['scripts', 'styles:docs'], cb);
 });
 
 gulp.task('watch:docs', ['serve'], () => {
