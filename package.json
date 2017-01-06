@@ -60,7 +60,10 @@
     "node": ">=0.12"
   },
   "scripts": {
+    "build": "gulp",
+    "dev": "gulp dev:docs",
     "precommit": "gulp build",
+    "release": "gulp release",
     "test": "./node_modules/.bin/karma start karma.conf.js --single-run --browsers Firefox"
   }
 }
