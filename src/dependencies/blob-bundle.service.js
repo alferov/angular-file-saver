@@ -1,6 +1,6 @@
 'use strict';
 
-require('Blob.js');
+require('blob-tmp');
 
 module.exports = function Blob($window) {
   return $window.Blob;
