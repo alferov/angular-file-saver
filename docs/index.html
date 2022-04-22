@@ -24,8 +24,7 @@
     <!-- inject:html -->
     <h1 id="angular-file-saver">Angular File Saver</h1>
 <p><a href="https://npmjs.org/package/angular-file-saver"><img src="https://img.shields.io/npm/v/angular-file-saver.svg?style=flat-square" alt="NPM version"></a>
-<a href="https://travis-ci.org/alferov/angular-file-saver"><img src="https://img.shields.io/travis/alferov/angular-file-saver.svg?style=flat-square" alt="Build Status"></a>
-<a href="https://david-dm.org/alferov/angular-file-saver"><img src="https://david-dm.org/alferov/angular-file-saver.svg?style=flat-square" alt="Dependency Status"></a></p>
+<a href="https://travis-ci.org/alferov/angular-file-saver"><img src="https://img.shields.io/travis/alferov/angular-file-saver.svg?style=flat-square" alt="Build Status"></a></p>
 <blockquote>
 <p>Angular File Saver is an AngularJS service that leverages
 <a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a> and
@@ -64,7 +63,7 @@ as the second one: <code>new Blob([&#39;text&#39;], { type: &#39;text/plain;char
 </ul>
 <p><a href="http://alferov.github.io/angular-file-saver/#demo">Demo</a></p>
 <h2 id="api">API</h2>
-<h3 id="-filesaver-"><code>FileSaver</code></h3>
+<h3 id="filesaver"><code>FileSaver</code></h3>
 <p>A core Angular factory.</p>
 <h4 id="-saveas-data-filename-disableautobom-"><code>#saveAs(data, filename[, disableAutoBOM])</code></h4>
 <p>Immediately starts saving a file</p>
@@ -74,9 +73,9 @@ as the second one: <code>new Blob([&#39;text&#39;], { type: &#39;text/plain;char
 <li><strong>String</strong> <code>filename</code>: a custom filename (an extension is optional);</li>
 <li><strong>Boolean</strong> <code>disableAutoBOM</code> : (optional) Disable automatically provided Unicode text encoding hints;</li>
 </ul>
-<h3 id="-blob-blobparts-options-"><code>Blob(blobParts[, options]))</code></h3>
+<h3 id="blob-blobparts-options-"><code>Blob(blobParts[, options]))</code></h3>
 <p>An Angular factory that returns a <a href="https://developer.mozilla.org/en/docs/Web/API/Blob">Blob instance</a>.</p>
-<h3 id="-saveas-data-filename-disableautobom-"><code>SaveAs(data, filename[, disableAutoBOM])</code></h3>
+<h3 id="saveas-data-filename-disableautobom-"><code>SaveAs(data, filename[, disableAutoBOM])</code></h3>
 <p>An Angular factory that returns a <a href="https://github.com/eligrey/FileSaver.js/#syntax">FileSaver.js polyfill</a>.</p>
 <h2 id="example">Example</h2>
 <p><strong>JS</strong></p>
@@ -84,10 +83,10 @@ as the second one: <code>new Blob([&#39;text&#39;], { type: &#39;text/plain;char
   var vm = this;
 
   vm.val = {
-    text: &#39;Hey ho lets go!&#39;
+    text: &#39;Hey ho lets go!&#39;,
   };
 
-  vm.download = function(text) {
+  vm.download = function (text) {
     var data = new Blob([text], { type: &#39;text/plain;charset=utf-8&#39; });
     FileSaver.saveAs(data, &#39;text.txt&#39;);
   };
@@ -99,9 +98,7 @@ angular
 </code></pre>
 <p><strong>HTML</strong></p>
 <pre><code class="lang-html">&lt;div class=&quot;wrapper&quot; ng-controller=&quot;ExampleCtrl as vm&quot;&gt;
-  &lt;textarea
-    ng-model=&quot;vm.val.text&quot;
-    name=&quot;textarea&quot; rows=&quot;5&quot; cols=&quot;20&quot;&gt;
+  &lt;textarea ng-model=&quot;vm.val.text&quot; name=&quot;textarea&quot; rows=&quot;5&quot; cols=&quot;20&quot;&gt;
       Hey ho let&#39;s go!
   &lt;/textarea&gt;
   &lt;a href=&quot;&quot; class=&quot;btn btn-dark btn-small&quot; ng-click=&quot;vm.download(vm.val.text)&quot;&gt;
